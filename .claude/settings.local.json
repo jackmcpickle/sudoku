@@ -9,7 +9,12 @@
       "Bash(pnpm build:*)",
       "Bash(pnpm test:run:*)",
       "Bash(pnpm lint:*)",
-      "Bash(pnpm wrangler kv namespace create:*)"
+      "Bash(pnpm wrangler kv namespace create:*)",
+      "Bash(npm test)",
+      "Bash(npx drizzle-kit:*)",
+      "Bash(wrangler d1 execute:*)",
+      "Bash(pnpm wrangler d1 execute:*)",
+      "Bash(source:*)"
     ]
   }
 }

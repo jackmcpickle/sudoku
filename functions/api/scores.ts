@@ -1,104 +1,98 @@
+import { eq, desc } from 'drizzle-orm'
+import { getDb, schema } from '../../db'
+import { submitScoreSchema, difficultySchema } from '../../lib/validation'
+
 interface Env {
-  SUDOKU_STATE: KVNamespace
-}
-
-type Difficulty = 'beginner' | 'easy' | 'medium' | 'hard' | 'expert'
-
-interface GameScore {
-  id: string
-  difficulty: Difficulty
-  score: number
-  timeSeconds: number
-  hintsUsed: number
-  mistakes: number
-  completedAt: string
-  visitorId: string
-  username: string
+  DB: D1Database
 }
 
 const GLOBAL_LIMIT = 100
 const DIFFICULTY_LIMIT = 50
 const USER_LIMIT = 5
 
-function insertSorted(scores: GameScore[], newScore: GameScore, limit: number): GameScore[] {
-  const result = [...scores]
-  let inserted = false
-  for (let i = 0; i < result.length; i++) {
-    if (newScore.score > result[i].score) {
-      result.splice(i, 0, newScore)
-      inserted = true
-      break
-    }
-  }
-  if (!inserted && result.length < limit) {
-    result.push(newScore)
-  }
-  return result.slice(0, limit)
-}
-
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { request, env } = context
+  const db = getDb(env.DB)
 
   const url = new URL(request.url)
-  const difficulty = url.searchParams.get('difficulty') as Difficulty | null
+  const difficulty = url.searchParams.get('difficulty')
   const visitorId = url.searchParams.get('visitorId')
 
   if (visitorId) {
-    const userScores = await env.SUDOKU_STATE.get<GameScore[]>(`user-scores:${visitorId}`, 'json')
-    return new Response(JSON.stringify(userScores || []), {
+    const userScores = await db.select().from(schema.scores)
+      .where(eq(schema.scores.visitorId, visitorId))
+      .orderBy(desc(schema.scores.score))
+      .limit(USER_LIMIT)
+
+    return new Response(JSON.stringify(userScores.map(mapScore)), {
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
   if (difficulty) {
-    const scores = await env.SUDOKU_STATE.get<GameScore[]>(`scores:${difficulty}`, 'json')
-    return new Response(JSON.stringify(scores || []), {
+    const parsed = difficultySchema.safeParse(difficulty)
+    if (!parsed.success) {
+      return new Response(JSON.stringify({ error: 'Invalid difficulty' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    const scores = await db.select().from(schema.scores)
+      .where(eq(schema.scores.difficulty, parsed.data))
+      .orderBy(desc(schema.scores.score))
+      .limit(DIFFICULTY_LIMIT)
+
+    return new Response(JSON.stringify(scores.map(mapScore)), {
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  const scores = await env.SUDOKU_STATE.get<GameScore[]>('scores:global', 'json')
-  return new Response(JSON.stringify(scores || []), {
+  const scores = await db.select().from(schema.scores)
+    .orderBy(desc(schema.scores.score))
+    .limit(GLOBAL_LIMIT)
+
+  return new Response(JSON.stringify(scores.map(mapScore)), {
     headers: { 'Content-Type': 'application/json' },
   })
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context
+  const db = getDb(env.DB)
 
   try {
-    const body = await request.json() as Omit<GameScore, 'id' | 'completedAt'>
+    const body = await request.json()
+    const result = submitScoreSchema.safeParse(body)
 
-    if (!body.difficulty || typeof body.score !== 'number' || !body.visitorId || !body.username) {
-      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+    if (!result.success) {
+      return new Response(JSON.stringify({ error: result.error.issues[0].message }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       })
     }
 
-    const newScore: GameScore = {
-      ...body,
-      id: crypto.randomUUID(),
-      completedAt: new Date().toISOString(),
-    }
+    const data = result.data
+    const id = crypto.randomUUID()
+    const completedAt = new Date().toISOString()
 
-    const [globalScores, difficultyScores, userScores] = await Promise.all([
-      env.SUDOKU_STATE.get<GameScore[]>('scores:global', 'json'),
-      env.SUDOKU_STATE.get<GameScore[]>(`scores:${body.difficulty}`, 'json'),
-      env.SUDOKU_STATE.get<GameScore[]>(`user-scores:${body.visitorId}`, 'json'),
-    ])
+    await db.insert(schema.scores).values({
+      id,
+      visitorId: data.visitorId,
+      username: data.username,
+      difficulty: data.difficulty,
+      score: data.score,
+      timeSeconds: data.timeSeconds,
+      hintsUsed: data.hintsUsed,
+      mistakes: data.mistakes,
+      completedAt,
+    })
 
-    const newGlobal = insertSorted(globalScores || [], newScore, GLOBAL_LIMIT)
-    const newDifficulty = insertSorted(difficultyScores || [], newScore, DIFFICULTY_LIMIT)
-    const newUserScores = insertSorted(userScores || [], newScore, USER_LIMIT)
-
-    await Promise.all([
-      env.SUDOKU_STATE.put('scores:global', JSON.stringify(newGlobal)),
-      env.SUDOKU_STATE.put(`scores:${body.difficulty}`, JSON.stringify(newDifficulty)),
-      env.SUDOKU_STATE.put(`user-scores:${body.visitorId}`, JSON.stringify(newUserScores)),
-    ])
-
-    return new Response(JSON.stringify(newScore), {
+    return new Response(JSON.stringify({
+      id,
+      ...data,
+      completedAt,
+    }), {
       status: 201,
       headers: { 'Content-Type': 'application/json' },
     })
@@ -107,5 +101,19 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
+  }
+}
+
+function mapScore(row: typeof schema.scores.$inferSelect) {
+  return {
+    id: row.id,
+    visitorId: row.visitorId,
+    username: row.username,
+    difficulty: row.difficulty,
+    score: row.score,
+    timeSeconds: row.timeSeconds,
+    hintsUsed: row.hintsUsed,
+    mistakes: row.mistakes,
+    completedAt: row.completedAt,
   }
 }

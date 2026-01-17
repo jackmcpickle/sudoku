@@ -1,38 +1,19 @@
+import { eq } from 'drizzle-orm'
+import { getDb, schema } from '../../../db'
+import { saveGameSchema } from '../../../lib/validation'
+
 interface Env {
-  SUDOKU_STATE: KVNamespace
-}
-
-type CellValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-type Difficulty = 'beginner' | 'easy' | 'medium' | 'hard' | 'expert'
-
-interface Action {
-  type: 'fill' | 'note' | 'erase'
-  row: number
-  col: number
-  prevValue: CellValue
-  prevNotes: number[]
-}
-
-interface SavedGame {
-  id: string
-  difficulty: Difficulty
-  puzzle: CellValue[][]
-  solution: CellValue[][]
-  board: Array<Array<{ value: CellValue; isGiven: boolean; notes: number[] }>>
-  timer: number
-  hintsUsed: number
-  mistakes: number
-  pointsLost: number
-  history: Action[]
-  updatedAt: string
-  visitorId: string
+  DB: D1Database
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { env, params } = context
+  const db = getDb(env.DB)
   const visitorId = params.visitorId as string
 
-  const game = await env.SUDOKU_STATE.get<SavedGame>(`game:${visitorId}`, 'json')
+  const game = await db.select().from(schema.games)
+    .where(eq(schema.games.visitorId, visitorId))
+    .get()
 
   if (!game) {
     return new Response(JSON.stringify({ error: 'No saved game' }), {
@@ -41,35 +22,68 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     })
   }
 
-  return new Response(JSON.stringify(game), {
+  return new Response(JSON.stringify(mapGame(game)), {
     headers: { 'Content-Type': 'application/json' },
   })
 }
 
 export const onRequestPut: PagesFunction<Env> = async (context) => {
   const { request, env, params } = context
+  const db = getDb(env.DB)
   const visitorId = params.visitorId as string
 
   try {
-    const game = await request.json() as Omit<SavedGame, 'id' | 'updatedAt' | 'visitorId'>
+    const body = await request.json()
+    const result = saveGameSchema.safeParse(body)
 
-    if (!game.difficulty || !game.puzzle || !game.solution || !game.board) {
-      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+    if (!result.success) {
+      return new Response(JSON.stringify({ error: result.error.issues[0].message }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       })
     }
 
-    const savedGame: SavedGame = {
-      ...game,
-      id: crypto.randomUUID(),
+    const data = result.data
+    const id = crypto.randomUUID()
+    const updatedAt = new Date().toISOString()
+
+    await db.insert(schema.games)
+      .values({
+        id,
+        visitorId,
+        difficulty: data.difficulty,
+        puzzle: JSON.stringify(data.puzzle),
+        solution: JSON.stringify(data.solution),
+        board: JSON.stringify(data.board),
+        timer: data.timer,
+        hintsUsed: data.hintsUsed,
+        mistakes: data.mistakes,
+        pointsLost: data.pointsLost,
+        history: JSON.stringify(data.history),
+        updatedAt,
+      })
+      .onConflictDoUpdate({
+        target: schema.games.visitorId,
+        set: {
+          difficulty: data.difficulty,
+          puzzle: JSON.stringify(data.puzzle),
+          solution: JSON.stringify(data.solution),
+          board: JSON.stringify(data.board),
+          timer: data.timer,
+          hintsUsed: data.hintsUsed,
+          mistakes: data.mistakes,
+          pointsLost: data.pointsLost,
+          history: JSON.stringify(data.history),
+          updatedAt,
+        },
+      })
+
+    return new Response(JSON.stringify({
+      id,
       visitorId,
-      updatedAt: new Date().toISOString(),
-    }
-
-    await env.SUDOKU_STATE.put(`game:${visitorId}`, JSON.stringify(savedGame))
-
-    return new Response(JSON.stringify(savedGame), {
+      ...data,
+      updatedAt,
+    }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch {
@@ -82,11 +96,29 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
 
 export const onRequestDelete: PagesFunction<Env> = async (context) => {
   const { env, params } = context
+  const db = getDb(env.DB)
   const visitorId = params.visitorId as string
 
-  await env.SUDOKU_STATE.delete(`game:${visitorId}`)
+  await db.delete(schema.games).where(eq(schema.games.visitorId, visitorId))
 
   return new Response(JSON.stringify({ success: true }), {
     headers: { 'Content-Type': 'application/json' },
   })
+}
+
+function mapGame(row: typeof schema.games.$inferSelect) {
+  return {
+    id: row.id,
+    visitorId: row.visitorId,
+    difficulty: row.difficulty,
+    puzzle: JSON.parse(row.puzzle),
+    solution: JSON.parse(row.solution),
+    board: JSON.parse(row.board),
+    timer: row.timer,
+    hintsUsed: row.hintsUsed,
+    mistakes: row.mistakes,
+    pointsLost: row.pointsLost,
+    history: JSON.parse(row.history),
+    updatedAt: row.updatedAt,
+  }
 }

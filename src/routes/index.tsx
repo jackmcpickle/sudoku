@@ -31,7 +31,7 @@ function HomePage() {
   }, [init])
 
   useEffect(() => {
-    if (!visitorId || !username) return
+    if (!visitorId) return
 
     getSavedGame(visitorId).then(game => {
       if (game) {
@@ -40,9 +40,9 @@ function HomePage() {
       }
       setHasChecked(true)
     })
-  }, [visitorId, username])
+  }, [visitorId])
 
-  const isChecking = !hasChecked && visitorId && username
+  const isChecking = !hasChecked && visitorId
 
   const handleStart = async (difficulty: Difficulty) => {
     if (savedGame) {
@@ -70,16 +70,14 @@ function HomePage() {
     navigate({ to: '/play', search: { difficulty: savedGame.difficulty, resume: true } })
   }
 
+  const [showUsernameModal, setShowUsernameModal] = useState(false)
+
   const handleNewGame = async () => {
     if (savedGame) {
       await deleteGame(visitorId)
       setSavedGame(null)
     }
     setShowResumeModal(false)
-  }
-
-  if (!username) {
-    return <UsernameModal isOpen={true} />
   }
 
   if (isChecking) {
@@ -93,7 +91,16 @@ function HomePage() {
   return (
     <div className="max-w-md mx-auto px-4 text-center">
       <h1 className="text-4xl font-bold text-white mb-2">Sudoku</h1>
-      <p className="text-slate-400 mb-1">Welcome, <span className="text-blue-400">{username}</span></p>
+      {username ? (
+        <p className="text-slate-400 mb-1">Welcome, <span className="text-blue-400">{username}</span></p>
+      ) : (
+        <div className="mb-1 flex items-center justify-center gap-2">
+          <p className="text-slate-400">Playing as guest</p>
+          <Button size="sm" variant="secondary" onClick={() => setShowUsernameModal(true)}>
+            Save to Cloud
+          </Button>
+        </div>
+      )}
       <p className="text-slate-500 text-sm mb-8">Select a difficulty to start</p>
       <div className="space-y-3">
         {DIFFICULTIES.map(difficulty => (
@@ -126,6 +133,10 @@ function HomePage() {
           onNewGame={handleNewGame}
         />
       )}
+      <UsernameModal
+        isOpen={showUsernameModal}
+        onClose={() => setShowUsernameModal(false)}
+      />
     </div>
   )
 }

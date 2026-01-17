@@ -10,6 +10,7 @@ interface UserState {
 
   init: () => Promise<void>
   setUsername: (username: string) => Promise<void>
+  loginByUsername: (username: string, newVisitorId: string) => Promise<void>
   clearError: () => void
 }
 
@@ -55,6 +56,18 @@ export const useUserStore = create<UserState>()(
           set({ username: user.username, isLoading: false })
         } catch (e) {
           const msg = e instanceof Error ? e.message : 'Failed to set username'
+          set({ isLoading: false, error: msg })
+          throw e
+        }
+      },
+
+      loginByUsername: async (username: string, newVisitorId: string) => {
+        set({ isLoading: true, error: null })
+        try {
+          localStorage.setItem('sudoku-visitor-id', newVisitorId)
+          set({ visitorId: newVisitorId, username, isLoading: false })
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : 'Failed to resume session'
           set({ isLoading: false, error: msg })
           throw e
         }

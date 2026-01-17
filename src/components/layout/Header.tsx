@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { useGameStore } from '@/stores/gameStore'
+import { ThemeToggle } from '@/components/ui'
 
 export function Header() {
   const puzzle = useGameStore(state => state.puzzle)
@@ -16,6 +17,7 @@ export function Header() {
           <Link to="/" className="text-slate-400 hover:text-white">Home</Link>
           <Link to="/scores" className="text-slate-400 hover:text-white">Scores</Link>
           <Link to="/help" className="text-slate-400 hover:text-white">Help</Link>
+          <ThemeToggle />
         </nav>
       </div>
     </header>

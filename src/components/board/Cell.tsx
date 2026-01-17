@@ -8,6 +8,7 @@ interface CellProps {
   isError: boolean
   isSameNumber: boolean
   notes: Set<number>
+  selectedNumber: number
   onClick: () => void
 }
 
@@ -19,6 +20,7 @@ export function Cell({
   isError,
   isSameNumber,
   notes,
+  selectedNumber,
   onClick,
 }: CellProps) {
   let bgClass = 'bg-[var(--sudoku-cell)]'
@@ -40,7 +42,14 @@ export function Cell({
       ) : notes.size > 0 ? (
         <div className="grid grid-cols-3 gap-0 w-full h-full p-0.5">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => (
-            <div key={n} className="flex items-center justify-center text-[8px] sm:text-[10px] text-slate-500">
+            <div
+              key={n}
+              className={`flex items-center justify-center text-[8px] sm:text-[10px] ${
+                notes.has(n) && selectedNumber === n
+                  ? 'text-blue-400 font-bold'
+                  : 'text-slate-500'
+              }`}
+            >
               {notes.has(n) ? n : ''}
             </div>
           ))}

@@ -44,6 +44,7 @@ export function Board() {
                   isError={isError}
                   isSameNumber={isSameNumber}
                   notes={cell.notes}
+                  selectedNumber={selectedValue}
                   onClick={() => selectCell({ row: rowIndex, col: colIndex })}
                 />
               </div>

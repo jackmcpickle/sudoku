@@ -38,6 +38,13 @@ export async function getUser(visitorId: string): Promise<User | null> {
   return res.json()
 }
 
+export async function getUserByUsername(username: string): Promise<User | null> {
+  const res = await fetch(`${API_BASE}/users?username=${encodeURIComponent(username)}`)
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error('Failed to fetch user')
+  return res.json()
+}
+
 // Scores
 export async function getScores(difficulty?: Difficulty): Promise<ApiGameScore[]> {
   const url = difficulty
