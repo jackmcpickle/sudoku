@@ -30,6 +30,12 @@ export interface Action {
   prevNotes: number[]
 }
 
+export interface User {
+  username: string
+  visitorId: string
+  createdAt: string
+}
+
 export interface GameScore {
   id: string
   difficulty: Difficulty
@@ -39,6 +45,7 @@ export interface GameScore {
   mistakes: number
   completedAt: string
   userId: string
+  username?: string
 }
 
 export interface SavedGame {

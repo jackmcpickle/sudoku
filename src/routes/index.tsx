@@ -1,7 +1,14 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui'
 import { DIFFICULTIES } from '@/lib/sudoku/difficulty'
+import { useUserStore } from '@/stores/userStore'
+import { useGameStore } from '@/stores/gameStore'
+import { UsernameModal } from '@/components/UsernameModal'
+import { ResumeGameModal } from '@/components/ResumeGameModal'
+import { getSavedGame, deleteGame } from '@/lib/api'
 import type { Difficulty } from '@/types'
+import type { ApiSavedGame } from '@/lib/api'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
@@ -9,15 +16,86 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   const navigate = useNavigate()
+  const username = useUserStore(state => state.username)
+  const visitorId = useUserStore(state => state.visitorId)
+  const init = useUserStore(state => state.init)
+  const loadGame = useGameStore(state => state.loadGame)
+  const reset = useGameStore(state => state.reset)
 
-  const handleStart = (difficulty: Difficulty) => {
+  const [savedGame, setSavedGame] = useState<ApiSavedGame | null>(null)
+  const [showResumeModal, setShowResumeModal] = useState(false)
+  const [isChecking, setIsChecking] = useState(true)
+
+  useEffect(() => {
+    init()
+  }, [init])
+
+  useEffect(() => {
+    if (!visitorId || !username) {
+      setIsChecking(false)
+      return
+    }
+
+    getSavedGame(visitorId).then(game => {
+      if (game) {
+        setSavedGame(game)
+        setShowResumeModal(true)
+      }
+      setIsChecking(false)
+    })
+  }, [visitorId, username])
+
+  const handleStart = async (difficulty: Difficulty) => {
+    if (savedGame) {
+      await deleteGame(visitorId)
+      setSavedGame(null)
+    }
+    reset()
     navigate({ to: '/play', search: { difficulty } })
+  }
+
+  const handleResume = () => {
+    if (!savedGame) return
+    loadGame({
+      puzzle: savedGame.puzzle,
+      solution: savedGame.solution,
+      difficulty: savedGame.difficulty,
+      board: savedGame.board,
+      timer: savedGame.timer,
+      hintsUsed: savedGame.hintsUsed,
+      mistakes: savedGame.mistakes,
+      pointsLost: savedGame.pointsLost,
+      history: savedGame.history,
+    })
+    setShowResumeModal(false)
+    navigate({ to: '/play', search: { difficulty: savedGame.difficulty, resume: true } })
+  }
+
+  const handleNewGame = async () => {
+    if (savedGame) {
+      await deleteGame(visitorId)
+      setSavedGame(null)
+    }
+    setShowResumeModal(false)
+  }
+
+  if (!username) {
+    return <UsernameModal isOpen={true} />
+  }
+
+  if (isChecking) {
+    return (
+      <div className="max-w-md mx-auto px-4 text-center">
+        <div className="animate-pulse text-slate-400">Loading...</div>
+      </div>
+    )
   }
 
   return (
     <div className="max-w-md mx-auto px-4 text-center">
       <h1 className="text-4xl font-bold text-white mb-2">Sudoku</h1>
-      <p className="text-slate-400 mb-8">Select a difficulty to start</p>
+      <p className="text-slate-400 mb-1">Welcome, <span className="text-blue-400">{username}</span></p>
+      <p className="text-slate-500 text-sm mb-8">Select a difficulty to start</p>
       <div className="space-y-3">
         {DIFFICULTIES.map(difficulty => (
           <Button
@@ -40,6 +118,15 @@ function HomePage() {
           <li>Complete faster with fewer mistakes for higher scores</li>
         </ul>
       </div>
+      {savedGame && (
+        <ResumeGameModal
+          isOpen={showResumeModal}
+          difficulty={savedGame.difficulty}
+          timer={savedGame.timer}
+          onResume={handleResume}
+          onNewGame={handleNewGame}
+        />
+      )}
     </div>
   )
 }

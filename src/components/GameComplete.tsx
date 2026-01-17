@@ -1,6 +1,8 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useGameStore } from '@/stores/gameStore'
+import { useUserStore } from '@/stores/userStore'
 import { saveScore } from '@/lib/storage'
+import { submitScore } from '@/lib/api'
 import { calculateScore, formatTime } from '@/lib/scoring'
 import { Modal, Button } from '@/components/ui'
 import { useEffect, useRef } from 'react'
@@ -15,28 +17,47 @@ export function GameComplete() {
   const pointsLost = useGameStore(state => state.pointsLost)
   const userId = useGameStore(state => state.userId)
   const reset = useGameStore(state => state.reset)
+  const visitorId = useUserStore(state => state.visitorId)
+  const username = useUserStore(state => state.username)
 
   const savedRef = useRef(false)
 
   useEffect(() => {
     if (isComplete && puzzle && !savedRef.current) {
       savedRef.current = true
+      const finalScore = calculateScore({
+        difficulty: puzzle.difficulty,
+        timeSeconds: timer,
+        hintsUsed,
+        pointsLost,
+        completed: true,
+      }).totalScore
+
+      // Save locally
       saveScore({
         difficulty: puzzle.difficulty,
-        score: calculateScore({
-          difficulty: puzzle.difficulty,
-          timeSeconds: timer,
-          hintsUsed,
-          pointsLost,
-          completed: true,
-        }).totalScore,
+        score: finalScore,
         timeSeconds: timer,
         hintsUsed,
         mistakes,
         userId,
+        username: username || undefined,
       })
+
+      // Submit to API
+      if (visitorId && username) {
+        submitScore({
+          difficulty: puzzle.difficulty,
+          score: finalScore,
+          timeSeconds: timer,
+          hintsUsed,
+          mistakes,
+          visitorId,
+          username,
+        })
+      }
     }
-  }, [isComplete, puzzle, timer, hintsUsed, mistakes, pointsLost, userId])
+  }, [isComplete, puzzle, timer, hintsUsed, mistakes, pointsLost, userId, visitorId, username])
 
   if (!isComplete || !puzzle) return null
 

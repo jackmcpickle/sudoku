@@ -1,11 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { getScores, getUserStats } from '@/lib/storage'
+import { useState, useEffect } from 'react'
+import { getScores as getLocalScores, getUserStats } from '@/lib/storage'
+import { getScores as getApiScores } from '@/lib/api'
 import { useGameStore } from '@/stores/gameStore'
+import { useUserStore } from '@/stores/userStore'
 import { Button } from '@/components/ui'
 import { DIFFICULTIES } from '@/lib/sudoku/difficulty'
 import { formatTime } from '@/lib/scoring'
-import type { Difficulty } from '@/types'
+import type { Difficulty, GameScore } from '@/types'
+import type { ApiGameScore } from '@/lib/api'
 
 export const Route = createFileRoute('/scores')({
   component: ScoresPage,
@@ -13,10 +16,26 @@ export const Route = createFileRoute('/scores')({
 
 function ScoresPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | undefined>(undefined)
+  const [apiScores, setApiScores] = useState<ApiGameScore[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const userId = useGameStore(state => state.userId)
+  const visitorId = useUserStore(state => state.visitorId)
 
-  const scores = getScores(selectedDifficulty, 20)
+  useEffect(() => {
+    setIsLoading(true)
+    getApiScores(selectedDifficulty).then((global) => {
+      setApiScores(global)
+      setIsLoading(false)
+    }).catch(() => {
+      setIsLoading(false)
+    })
+  }, [selectedDifficulty, visitorId])
+
+  const localScores = getLocalScores(selectedDifficulty, 20)
   const stats = getUserStats(userId)
+
+  // Use API scores if available, fallback to local
+  const scores: (GameScore | ApiGameScore)[] = apiScores.length > 0 ? apiScores : localScores
 
   return (
     <div className="max-w-2xl mx-auto px-4">
@@ -49,31 +68,35 @@ function ScoresPage() {
         ))}
       </div>
 
-      {scores.length > 0 ? (
+      {isLoading ? (
+        <div className="text-center py-8 text-slate-400">Loading...</div>
+      ) : scores.length > 0 ? (
         <div className="bg-slate-800 rounded-lg shadow overflow-hidden">
           <table className="w-full">
             <thead className="bg-slate-700">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Rank</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Player</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Score</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Difficulty</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Time</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase hidden sm:table-cell">Date</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase hidden sm:table-cell">Difficulty</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase hidden sm:table-cell">Time</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700">
               {scores.map((score, index) => {
-                const isCurrentUser = score.userId === userId
+                const scoreUsername = 'username' in score ? score.username : undefined
+                const scoreVisitorId = 'visitorId' in score ? score.visitorId : ('userId' in score ? score.userId : undefined)
+                const isCurrentUser = scoreVisitorId === visitorId || ('userId' in score && score.userId === userId)
                 return (
                   <tr key={score.id} className={isCurrentUser ? 'bg-blue-900/20' : ''}>
                     <td className="px-4 py-3 text-sm font-medium text-white">#{index + 1}</td>
-                    <td className="px-4 py-3 text-sm font-bold text-white">
-                      {score.score.toLocaleString()}
-                      {isCurrentUser && <span className="ml-2 text-xs text-blue-400">(You)</span>}
+                    <td className="px-4 py-3 text-sm text-white">
+                      {scoreUsername || 'Anonymous'}
+                      {isCurrentUser && <span className="ml-1 text-xs text-blue-400">(You)</span>}
                     </td>
-                    <td className="px-4 py-3 text-sm text-slate-400 capitalize">{score.difficulty}</td>
-                    <td className="px-4 py-3 text-sm text-slate-400 font-mono">{formatTime(score.timeSeconds)}</td>
-                    <td className="px-4 py-3 text-sm text-slate-400 hidden sm:table-cell">{new Date(score.completedAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-sm font-bold text-white">{score.score.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-sm text-slate-400 capitalize hidden sm:table-cell">{score.difficulty}</td>
+                    <td className="px-4 py-3 text-sm text-slate-400 font-mono hidden sm:table-cell">{formatTime(score.timeSeconds)}</td>
                   </tr>
                 )
               })}
