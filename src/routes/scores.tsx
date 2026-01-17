@@ -16,20 +16,24 @@ export const Route = createFileRoute('/scores')({
 
 function ScoresPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | undefined>(undefined)
-  const [apiScores, setApiScores] = useState<ApiGameScore[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [scoresData, setScoresData] = useState<{ scores: ApiGameScore[]; loading: boolean }>({ scores: [], loading: true })
   const userId = useGameStore(state => state.userId)
   const visitorId = useUserStore(state => state.visitorId)
 
   useEffect(() => {
-    setIsLoading(true)
+    let cancelled = false
     getApiScores(selectedDifficulty).then((global) => {
-      setApiScores(global)
-      setIsLoading(false)
+      if (!cancelled) setScoresData({ scores: global, loading: false })
     }).catch(() => {
-      setIsLoading(false)
+      if (!cancelled) setScoresData({ scores: [], loading: false })
     })
+    return () => {
+      cancelled = true
+      setScoresData(prev => ({ ...prev, loading: true }))
+    }
   }, [selectedDifficulty, visitorId])
+
+  const { scores: apiScores, loading: isLoading } = scoresData
 
   const localScores = getLocalScores(selectedDifficulty, 20)
   const stats = getUserStats(userId)

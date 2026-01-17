@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
-import { useGameStore } from '@/stores/gameStore'
 import { useUserStore } from '@/stores/userStore'
+import { useGameState, useGameActions } from '@/hooks/useGameState'
 import { saveScore } from '@/lib/storage'
 import { submitScore } from '@/lib/api'
 import { calculateScore, formatTime } from '@/lib/scoring'
@@ -9,14 +9,8 @@ import { useEffect, useRef } from 'react'
 
 export function GameComplete() {
   const navigate = useNavigate()
-  const isComplete = useGameStore(state => state.isComplete)
-  const puzzle = useGameStore(state => state.puzzle)
-  const timer = useGameStore(state => state.timer)
-  const hintsUsed = useGameStore(state => state.hintsUsed)
-  const mistakes = useGameStore(state => state.mistakes)
-  const pointsLost = useGameStore(state => state.pointsLost)
-  const userId = useGameStore(state => state.userId)
-  const reset = useGameStore(state => state.reset)
+  const { isComplete, puzzle, timer, hintsUsed, mistakes, pointsLost, userId } = useGameState()
+  const { reset } = useGameActions()
   const visitorId = useUserStore(state => state.visitorId)
   const username = useUserStore(state => state.username)
 

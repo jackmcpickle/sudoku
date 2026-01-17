@@ -1,4 +1,5 @@
 import type { Difficulty, GameScore, SavedGame } from '@/types'
+import { filterScores, sortScoresByScore, limitScores, aggregateStats } from './storage-pure'
 
 const GAMES_KEY = 'sudoku-games'
 const SCORES_KEY = 'sudoku-scores'
@@ -54,15 +55,11 @@ export function deleteGame(id: string): void {
 export function getScores(difficulty?: Difficulty, limit?: number): GameScore[] {
   const data = localStorage.getItem(SCORES_KEY)
   if (!data) return []
-  let scores: GameScore[] = JSON.parse(data)
-  if (difficulty) {
-    scores = scores.filter(s => s.difficulty === difficulty)
-  }
-  scores.sort((a, b) => b.score - a.score)
-  if (limit) {
-    scores = scores.slice(0, limit)
-  }
-  return scores
+  const scores: GameScore[] = JSON.parse(data)
+  let result = filterScores(scores, difficulty)
+  result = sortScoresByScore(result)
+  if (limit) result = limitScores(result, limit)
+  return result
 }
 
 export function getUserScores(userId: string): GameScore[] {
@@ -86,24 +83,5 @@ export function saveScore(score: Omit<GameScore, 'id' | 'completedAt'>): GameSco
 
 export function getUserStats(userId: string) {
   const scores = getUserScores(userId)
-  return {
-    totalGames: scores.length,
-    totalScore: scores.reduce((sum, s) => sum + s.score, 0),
-    averageScore: scores.length > 0
-      ? Math.floor(scores.reduce((sum, s) => sum + s.score, 0) / scores.length)
-      : 0,
-    bestScoreByDifficulty: (['beginner', 'easy', 'medium', 'hard', 'expert'] as Difficulty[]).reduce(
-      (acc, d) => {
-        const diffScores = scores.filter(s => s.difficulty === d)
-        acc[d] = diffScores.length > 0
-          ? diffScores.reduce((best, s) => s.score > best.score ? s : best)
-          : null
-        return acc
-      },
-      {} as Record<Difficulty, GameScore | null>
-    ),
-    recentScores: scores
-      .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime())
-      .slice(0, 10),
-  }
+  return aggregateStats(scores)
 }

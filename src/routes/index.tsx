@@ -24,26 +24,25 @@ function HomePage() {
 
   const [savedGame, setSavedGame] = useState<ApiSavedGame | null>(null)
   const [showResumeModal, setShowResumeModal] = useState(false)
-  const [isChecking, setIsChecking] = useState(true)
+  const [hasChecked, setHasChecked] = useState(false)
 
   useEffect(() => {
     init()
   }, [init])
 
   useEffect(() => {
-    if (!visitorId || !username) {
-      setIsChecking(false)
-      return
-    }
+    if (!visitorId || !username) return
 
     getSavedGame(visitorId).then(game => {
       if (game) {
         setSavedGame(game)
         setShowResumeModal(true)
       }
-      setIsChecking(false)
+      setHasChecked(true)
     })
   }, [visitorId, username])
+
+  const isChecking = !hasChecked && visitorId && username
 
   const handleStart = async (difficulty: Difficulty) => {
     if (savedGame) {

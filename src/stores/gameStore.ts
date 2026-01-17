@@ -1,8 +1,9 @@
 import { create } from 'zustand'
 import type { Action, Board, CellValue, Difficulty, Grid, Position, Puzzle } from '@/types'
-import { getAffectedPositions } from '@/lib/sudoku/validator'
 import { getUserId } from '@/lib/storage'
 import { DIFFICULTY_CONFIG } from '@/lib/sudoku/difficulty'
+import { checkCompletion } from '@/lib/sudoku/completion'
+import { clearNotesForValue } from '@/lib/sudoku/notes'
 
 interface GameState {
   puzzle: Puzzle | null
@@ -63,12 +64,6 @@ function boardFromPuzzle(grid: Grid): Board {
   )
 }
 
-function clearNotesForValue(board: Board, row: number, col: number, value: number): void {
-  const affected = getAffectedPositions(row, col)
-  for (const pos of affected) {
-    board[pos.row][pos.col].notes.delete(value)
-  }
-}
 
 export const useGameStore = create<GameState>((set, get) => ({
   puzzle: null,
@@ -164,16 +159,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     if (isCorrect && value !== 0) clearNotesForValue(newBoard, row, col, value)
 
-    let complete = true
-    for (let r = 0; r < 9; r++) {
-      for (let c = 0; c < 9; c++) {
-        if (newBoard[r][c].value !== solution[r][c]) {
-          complete = false
-          break
-        }
-      }
-      if (!complete) break
-    }
+    const complete = checkCompletion(newBoard, solution)
 
     set({
       board: newBoard,
@@ -232,16 +218,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     newBoard[row][col].notes.clear()
     clearNotesForValue(newBoard, row, col, correctValue)
 
-    let complete = true
-    for (let r = 0; r < 9; r++) {
-      for (let c = 0; c < 9; c++) {
-        if (newBoard[r][c].value !== solution[r][c]) {
-          complete = false
-          break
-        }
-      }
-      if (!complete) break
-    }
+    const complete = checkCompletion(newBoard, solution)
 
     set({
       board: newBoard,
