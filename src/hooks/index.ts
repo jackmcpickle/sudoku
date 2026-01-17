@@ -1,2 +1,2 @@
-export * from './useKeyboard'
-export * from './useTimer'
+export * from './useKeyboard';
+export * from './useTimer';

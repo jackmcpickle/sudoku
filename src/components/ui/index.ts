@@ -1,3 +1,3 @@
-export * from './Button'
-export * from './Modal'
-export * from './ThemeToggle'
+export * from './Button';
+export * from './Modal';
+export * from './ThemeToggle';

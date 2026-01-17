@@ -1,16 +1,16 @@
 {
-  "name": "sudoku",
-  "main": "src/worker.ts",
-  "compatibility_date": "2026-01-17",
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "single-page-application"
-  },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "sudoku_game_db",
-      "database_id": "243b6469-f442-485b-80ed-864fe5b1b444"
-    }
-  ]
+    "name": "sudoku",
+    "main": "src/worker.ts",
+    "compatibility_date": "2026-01-17",
+    "assets": {
+        "directory": "./dist",
+        "not_found_handling": "single-page-application",
+    },
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "sudoku_game_db",
+            "database_id": "243b6469-f442-485b-80ed-864fe5b1b444",
+        },
+    ],
 }

@@ -1,20 +1,22 @@
 {
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:developers.cloudflare.com)",
-      "WebFetch(domain:blog.cloudflare.com)",
-      "Bash(npm run build:*)",
-      "Bash(npx vite build:*)",
-      "Bash(pnpm add:*)",
-      "Bash(pnpm build:*)",
-      "Bash(pnpm test:run:*)",
-      "Bash(pnpm lint:*)",
-      "Bash(pnpm wrangler kv namespace create:*)",
-      "Bash(npm test)",
-      "Bash(npx drizzle-kit:*)",
-      "Bash(wrangler d1 execute:*)",
-      "Bash(pnpm wrangler d1 execute:*)",
-      "Bash(source:*)"
-    ]
-  }
+    "permissions": {
+        "allow": [
+            "WebFetch(domain:developers.cloudflare.com)",
+            "WebFetch(domain:blog.cloudflare.com)",
+            "Bash(npm run build:*)",
+            "Bash(npx vite build:*)",
+            "Bash(pnpm add:*)",
+            "Bash(pnpm build:*)",
+            "Bash(pnpm test:run:*)",
+            "Bash(pnpm lint:*)",
+            "Bash(pnpm wrangler kv namespace create:*)",
+            "Bash(npm test)",
+            "Bash(npx drizzle-kit:*)",
+            "Bash(wrangler d1 execute:*)",
+            "Bash(pnpm wrangler d1 execute:*)",
+            "Bash(source:*)",
+            "Bash(pnpm view:*)",
+            "Bash(pnpm format:check:*)"
+        ]
+    }
 }
