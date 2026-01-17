@@ -14,7 +14,7 @@ export function Board(): React.ReactElement {
     return (
         <div className="w-full max-w-md mx-auto">
             <div
-                className="grid grid-cols-9 border-2 border-[var(--sudoku-border-thick)] rounded-lg overflow-hidden bg-[var(--sudoku-bg)]"
+                className="grid grid-cols-9 border-2 border-(--sudoku-border-thick) rounded-lg overflow-hidden bg-(--sudoku-bg)"
                 style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             >
                 {board.map((row, rowIndex) =>
@@ -42,17 +42,17 @@ export function Board(): React.ReactElement {
 
                         const borderRight =
                             (colIndex + 1) % 3 === 0 && colIndex !== 8
-                                ? 'border-r-2 border-r-[var(--sudoku-border-thick)]'
-                                : 'border-r border-r-[var(--sudoku-border)]';
+                                ? 'border-r-2 border-r-(--sudoku-border-thick)'
+                                : 'border-r border-r-(--sudoku-border)';
                         const borderBottom =
                             (rowIndex + 1) % 3 === 0 && rowIndex !== 8
-                                ? 'border-b-2 border-b-[var(--sudoku-border-thick)]'
-                                : 'border-b border-b-[var(--sudoku-border)]';
+                                ? 'border-b-2 border-b-(--sudoku-border-thick)'
+                                : 'border-b border-b-(--sudoku-border)';
 
                         return (
                             <div
                                 key={`${rowIndex}-${colIndex}`}
-                                className={`${borderRight} ${borderBottom}`}
+                                className={`aspect-square ${borderRight} ${borderBottom}`}
                             >
                                 <Cell
                                     value={cell.value}

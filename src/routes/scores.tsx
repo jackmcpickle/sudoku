@@ -52,33 +52,33 @@ function ScoresPage(): React.ReactElement {
 
     return (
         <div className="max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl font-bold text-white mb-6">Leaderboard</h1>
+            <h1 className="text-2xl font-bold text-(--body-text) mb-6">Leaderboard</h1>
 
             {stats.totalGames > 0 && (
-                <div className="bg-blue-900/30 rounded-lg p-4 mb-6">
-                    <h2 className="font-medium text-blue-100 mb-2">
+                <div className="bg-(--accent-muted) rounded-lg p-4 mb-6">
+                    <h2 className="font-medium text-(--body-text) mb-2">
                         Your Stats
                     </h2>
                     <div className="grid grid-cols-3 gap-4 text-center">
                         <div>
-                            <div className="text-2xl font-bold text-blue-400">
+                            <div className="text-2xl font-bold text-(--accent)">
                                 {stats.totalGames}
                             </div>
-                            <div className="text-xs text-blue-300">Games</div>
+                            <div className="text-xs text-(--accent-text)">Games</div>
                         </div>
                         <div>
-                            <div className="text-2xl font-bold text-blue-400">
+                            <div className="text-2xl font-bold text-(--accent)">
                                 {stats.totalScore.toLocaleString()}
                             </div>
-                            <div className="text-xs text-blue-300">
+                            <div className="text-xs text-(--accent-text)">
                                 Total Score
                             </div>
                         </div>
                         <div>
-                            <div className="text-2xl font-bold text-blue-400">
+                            <div className="text-2xl font-bold text-(--accent)">
                                 {stats.averageScore}
                             </div>
-                            <div className="text-xs text-blue-300">
+                            <div className="text-xs text-(--accent-text)">
                                 Avg Score
                             </div>
                         </div>
@@ -114,32 +114,32 @@ function ScoresPage(): React.ReactElement {
             </div>
 
             {isLoading ? (
-                <div className="text-center py-8 text-slate-400">
+                <div className="text-center py-8 text-(--text-muted)">
                     Loading...
                 </div>
             ) : scores.length > 0 ? (
-                <div className="bg-slate-800 rounded-lg shadow overflow-hidden">
+                <div className="bg-(--surface) rounded-lg shadow overflow-hidden">
                     <table className="w-full">
-                        <thead className="bg-slate-700">
+                        <thead className="bg-(--surface-alt)">
                             <tr>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-4 py-3 text-left text-xs font-medium text-(--text-muted) uppercase">
                                     Rank
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-4 py-3 text-left text-xs font-medium text-(--text-muted) uppercase">
                                     Player
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-4 py-3 text-left text-xs font-medium text-(--text-muted) uppercase">
                                     Score
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase hidden sm:table-cell">
+                                <th className="px-4 py-3 text-left text-xs font-medium text-(--text-muted) uppercase hidden sm:table-cell">
                                     Difficulty
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase hidden sm:table-cell">
+                                <th className="px-4 py-3 text-left text-xs font-medium text-(--text-muted) uppercase hidden sm:table-cell">
                                     Time
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-700">
+                        <tbody className="divide-y divide-(--surface-alt)">
                             {scores.map((score, index) => {
                                 const scoreUsername =
                                     'username' in score
@@ -160,28 +160,28 @@ function ScoresPage(): React.ReactElement {
                                         key={score.id}
                                         className={
                                             isCurrentUser
-                                                ? 'bg-blue-900/20'
+                                                ? 'bg-(--accent-muted)'
                                                 : ''
                                         }
                                     >
-                                        <td className="px-4 py-3 text-sm font-medium text-white">
+                                        <td className="px-4 py-3 text-sm font-medium text-(--body-text)">
                                             #{index + 1}
                                         </td>
-                                        <td className="px-4 py-3 text-sm text-white">
+                                        <td className="px-4 py-3 text-sm text-(--body-text)">
                                             {scoreUsername || 'Anonymous'}
                                             {isCurrentUser && (
-                                                <span className="ml-1 text-xs text-blue-400">
+                                                <span className="ml-1 text-xs text-(--accent)">
                                                     (You)
                                                 </span>
                                             )}
                                         </td>
-                                        <td className="px-4 py-3 text-sm font-bold text-white">
+                                        <td className="px-4 py-3 text-sm font-bold text-(--body-text)">
                                             {score.score.toLocaleString()}
                                         </td>
-                                        <td className="px-4 py-3 text-sm text-slate-400 capitalize hidden sm:table-cell">
+                                        <td className="px-4 py-3 text-sm text-(--text-muted) capitalize hidden sm:table-cell">
                                             {score.difficulty}
                                         </td>
-                                        <td className="px-4 py-3 text-sm text-slate-400 font-mono hidden sm:table-cell">
+                                        <td className="px-4 py-3 text-sm text-(--text-muted) font-mono hidden sm:table-cell">
                                             {formatTime(score.timeSeconds)}
                                         </td>
                                     </tr>
@@ -191,7 +191,7 @@ function ScoresPage(): React.ReactElement {
                     </table>
                 </div>
             ) : (
-                <div className="text-center py-8 text-slate-400">
+                <div className="text-center py-8 text-(--text-muted)">
                     No scores yet. Be the first to complete a puzzle!
                 </div>
             )}

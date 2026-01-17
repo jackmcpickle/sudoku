@@ -38,9 +38,9 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps): React.R
                 tabIndex={-1}
                 aria-label="Close modal"
             />
-            <div className="relative z-10 bg-slate-800 rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+            <div className="relative z-10 bg-(--surface) rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
                 {title && (
-                    <h2 className="text-xl font-bold mb-4 text-white">
+                    <h2 className="text-xl font-bold mb-4 text-(--body-text)">
                         {title}
                     </h2>
                 )}

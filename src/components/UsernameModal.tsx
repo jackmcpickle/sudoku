@@ -85,7 +85,7 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps): React.Re
                 title="Resume Session?"
             >
                 <div className="space-y-4">
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-(--text-muted)">
                         This username is already in use on another device.
                         Resume that session here?
                     </p>
@@ -120,7 +120,7 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps): React.Re
                 onSubmit={handleSubmit}
                 className="space-y-4"
             >
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-(--text-muted)">
                     Your username will appear on the leaderboard.
                 </p>
                 <div>
@@ -130,7 +130,7 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps): React.Re
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Enter username"
-                            className="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="flex-1 px-4 py-3 bg-(--surface-alt) border border-(--surface-alt) rounded-lg text-(--body-text) placeholder-(--text-muted) focus:outline-none focus:ring-2 focus:ring-(--accent)"
                             disabled={isLoading}
                         />
                         <Button
@@ -143,7 +143,7 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps): React.Re
                         </Button>
                     </div>
                     {(validationError || error) && (
-                        <p className="mt-2 text-sm text-red-400">
+                        <p className="mt-2 text-sm text-(--error)">
                             {validationError || error}
                         </p>
                     )}

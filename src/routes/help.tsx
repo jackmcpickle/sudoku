@@ -8,11 +8,11 @@ export const Route = createFileRoute('/help')({
 function HelpPage(): React.ReactElement {
     return (
         <div className="max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl font-bold text-white mb-6">How to Play</h1>
+            <h1 className="text-2xl font-bold text-(--body-text) mb-6">How to Play</h1>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-white mb-3">Rules</h2>
-                <div className="bg-slate-800 rounded-lg p-4 space-y-2 text-slate-300">
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">Rules</h2>
+                <div className="bg-(--surface) rounded-lg p-4 space-y-2 text-(--text-muted)">
                     <p>Fill the 9×9 grid so that:</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                         <li>
@@ -32,13 +32,13 @@ function HelpPage(): React.ReactElement {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-white mb-3">
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">
                     Controls
                 </h2>
-                <div className="bg-slate-800 rounded-lg p-4 text-slate-300">
+                <div className="bg-(--surface) rounded-lg p-4 text-(--text-muted)">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <h3 className="font-medium text-white mb-2">
+                            <h3 className="font-medium text-(--body-text) mb-2">
                                 Mouse/Touch
                             </h3>
                             <ul className="space-y-1 text-sm">
@@ -48,36 +48,36 @@ function HelpPage(): React.ReactElement {
                             </ul>
                         </div>
                         <div>
-                            <h3 className="font-medium text-white mb-2">
+                            <h3 className="font-medium text-(--body-text) mb-2">
                                 Keyboard
                             </h3>
                             <ul className="space-y-1 text-sm">
                                 <li>
-                                    <kbd className="px-1.5 py-0.5 bg-slate-700 rounded text-xs">
+                                    <kbd className="px-1.5 py-0.5 bg-(--surface-alt) rounded text-xs">
                                         1-9
                                     </kbd>{' '}
                                     Enter number
                                 </li>
                                 <li>
-                                    <kbd className="px-1.5 py-0.5 bg-slate-700 rounded text-xs">
+                                    <kbd className="px-1.5 py-0.5 bg-(--surface-alt) rounded text-xs">
                                         Backspace
                                     </kbd>{' '}
                                     Erase
                                 </li>
                                 <li>
-                                    <kbd className="px-1.5 py-0.5 bg-slate-700 rounded text-xs">
+                                    <kbd className="px-1.5 py-0.5 bg-(--surface-alt) rounded text-xs">
                                         Arrow keys
                                     </kbd>{' '}
                                     Move selection
                                 </li>
                                 <li>
-                                    <kbd className="px-1.5 py-0.5 bg-slate-700 rounded text-xs">
+                                    <kbd className="px-1.5 py-0.5 bg-(--surface-alt) rounded text-xs">
                                         N
                                     </kbd>{' '}
                                     Toggle notes mode
                                 </li>
                                 <li>
-                                    <kbd className="px-1.5 py-0.5 bg-slate-700 rounded text-xs">
+                                    <kbd className="px-1.5 py-0.5 bg-(--surface-alt) rounded text-xs">
                                         Ctrl+Z
                                     </kbd>{' '}
                                     Undo
@@ -89,13 +89,13 @@ function HelpPage(): React.ReactElement {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-white mb-3">
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">
                     Notes Mode
                 </h2>
-                <div className="bg-slate-800 rounded-lg p-4 text-slate-300 space-y-2">
+                <div className="bg-(--surface) rounded-lg p-4 text-(--text-muted) space-y-2">
                     <p>
                         Press{' '}
-                        <kbd className="px-1.5 py-0.5 bg-slate-700 rounded text-xs">
+                        <kbd className="px-1.5 py-0.5 bg-(--surface-alt) rounded text-xs">
                             N
                         </kbd>{' '}
                         or tap "Notes" to toggle notes mode.
@@ -113,20 +113,20 @@ function HelpPage(): React.ReactElement {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-white mb-3">
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">
                     Scoring
                 </h2>
-                <div className="bg-slate-800 rounded-lg p-4 text-slate-300 space-y-4">
+                <div className="bg-(--surface) rounded-lg p-4 text-(--text-muted) space-y-4">
                     <div>
-                        <h3 className="font-medium text-white mb-2">Formula</h3>
-                        <p className="text-sm bg-slate-900 p-2 rounded font-mono">
+                        <h3 className="font-medium text-(--body-text) mb-2">Formula</h3>
+                        <p className="text-sm bg-(--body-bg) p-2 rounded font-mono">
                             (Base + Time Bonus - Hint Penalty - Mistake Penalty)
                             × Multiplier
                         </p>
                     </div>
 
                     <div>
-                        <h3 className="font-medium text-white mb-2">
+                        <h3 className="font-medium text-(--body-text) mb-2">
                             Time Bonus
                         </h3>
                         <p className="text-sm">
@@ -136,18 +136,18 @@ function HelpPage(): React.ReactElement {
                     </div>
 
                     <div>
-                        <h3 className="font-medium text-white mb-2">
+                        <h3 className="font-medium text-(--body-text) mb-2">
                             Penalties
                         </h3>
                         <ul className="text-sm space-y-1">
                             <li>
-                                <span className="text-red-400">Mistakes</span> —
+                                <span className="text-(--error)">Mistakes</span> —
                                 Points deducted immediately when you enter a
                                 wrong number.{' '}
                                 <strong>Cannot be recovered with undo.</strong>
                             </li>
                             <li>
-                                <span className="text-red-400">Hints</span> —
+                                <span className="text-(--error)">Hints</span> —
                                 Points deducted for each hint used.
                             </li>
                         </ul>
@@ -156,34 +156,34 @@ function HelpPage(): React.ReactElement {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-white mb-3">
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">
                     Difficulty Levels
                 </h2>
-                <div className="bg-slate-800 rounded-lg overflow-hidden">
+                <div className="bg-(--surface) rounded-lg overflow-hidden">
                     <table className="w-full text-sm">
-                        <thead className="bg-slate-700">
+                        <thead className="bg-(--surface-alt)">
                             <tr>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-3 py-2 text-left text-xs font-medium text-(--text-muted) uppercase">
                                     Level
                                 </th>
-                                <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-3 py-2 text-right text-xs font-medium text-(--text-muted) uppercase">
                                     Base
                                 </th>
-                                <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-3 py-2 text-right text-xs font-medium text-(--text-muted) uppercase">
                                     Multiplier
                                 </th>
-                                <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-3 py-2 text-right text-xs font-medium text-(--text-muted) uppercase">
                                     Mistake
                                 </th>
-                                <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 uppercase">
+                                <th className="px-3 py-2 text-right text-xs font-medium text-(--text-muted) uppercase">
                                     Hint
                                 </th>
-                                <th className="px-3 py-2 text-right text-xs font-medium text-slate-400 uppercase hidden sm:table-cell">
+                                <th className="px-3 py-2 text-right text-xs font-medium text-(--text-muted) uppercase hidden sm:table-cell">
                                     Target
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-700">
+                        <tbody className="divide-y divide-(--surface-alt)">
                             {DIFFICULTIES.map((d) => {
                                 const config = DIFFICULTY_CONFIG[d];
                                 const mistakeCost = Math.floor(
@@ -199,22 +199,22 @@ function HelpPage(): React.ReactElement {
                                 );
                                 return (
                                     <tr key={d}>
-                                        <td className="px-3 py-2 text-slate-300 capitalize">
+                                        <td className="px-3 py-2 text-(--text-muted) capitalize">
                                             {d}
                                         </td>
-                                        <td className="px-3 py-2 text-right text-slate-300">
+                                        <td className="px-3 py-2 text-right text-(--text-muted)">
                                             {config.baseScore}
                                         </td>
-                                        <td className="px-3 py-2 text-right text-blue-400">
+                                        <td className="px-3 py-2 text-right text-(--accent)">
                                             ×{config.difficultyMultiplier}
                                         </td>
-                                        <td className="px-3 py-2 text-right text-red-400">
+                                        <td className="px-3 py-2 text-right text-(--error)">
                                             -{mistakeCost}
                                         </td>
-                                        <td className="px-3 py-2 text-right text-red-400">
+                                        <td className="px-3 py-2 text-right text-(--error)">
                                             -{hintCost}
                                         </td>
-                                        <td className="px-3 py-2 text-right text-slate-400 hidden sm:table-cell">
+                                        <td className="px-3 py-2 text-right text-(--text-muted) hidden sm:table-cell">
                                             {targetMins}m
                                         </td>
                                     </tr>
@@ -223,15 +223,15 @@ function HelpPage(): React.ReactElement {
                         </tbody>
                     </table>
                 </div>
-                <p className="text-xs text-slate-500 mt-2">
+                <p className="text-xs text-(--text-muted) mt-2">
                     Target = time to beat for max time bonus. Hints available
                     decrease with difficulty.
                 </p>
             </section>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-white mb-3">Tips</h2>
-                <div className="bg-slate-800 rounded-lg p-4 text-slate-300">
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">Tips</h2>
+                <div className="bg-(--surface) rounded-lg p-4 text-(--text-muted)">
                     <ul className="list-disc list-inside space-y-1">
                         <li>Use notes to track possible candidates</li>
                         <li>Look for cells with only one possible value</li>

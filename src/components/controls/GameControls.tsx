@@ -18,17 +18,17 @@ export function GameControls(): React.ReactElement {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-center gap-3 text-sm text-slate-400">
+            <div className="flex justify-center gap-3 text-sm text-(--text-muted)">
                 <span>
                     Mistakes:{' '}
-                    <strong className={mistakes > 0 ? 'text-red-400' : ''}>
+                    <strong className={mistakes > 0 ? 'text-(--error)' : ''}>
                         {mistakes}
                     </strong>
                 </span>
                 <span>|</span>
                 <span>
                     Points Lost:{' '}
-                    <strong className={pointsLost > 0 ? 'text-red-400' : ''}>
+                    <strong className={pointsLost > 0 ? 'text-(--error)' : ''}>
                         {pointsLost}
                     </strong>
                 </span>
@@ -63,7 +63,7 @@ export function GameControls(): React.ReactElement {
                     Hint
                 </Button>
             </div>
-            <p className="text-xs text-center text-slate-500">
+            <p className="text-xs text-center text-(--text-muted)">
                 Keyboard: 1-9 to enter, N for notes, Ctrl+Z to undo
             </p>
         </div>

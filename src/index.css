@@ -2,30 +2,70 @@
 
 :root,
 :root[data-theme='dark'] {
+    /* Sudoku grid */
     --sudoku-bg: #1e293b;
     --sudoku-cell: #334155;
     --sudoku-cell-selected: #1e40af;
     --sudoku-cell-highlighted: #1e3a5f;
+    --sudoku-cell-same: #312e81;
     --sudoku-cell-error: #7f1d1d;
     --sudoku-cell-given: #475569;
-    --sudoku-border: #475569;
-    --sudoku-border-thick: #94a3b8;
+    --sudoku-border: #64748b;
+    --sudoku-border-thick: #e2e8f0;
+    --sudoku-text-given: #f1f5f9;
+    --sudoku-text-entered: #60a5fa;
+    --sudoku-text-notes: #94a3b8;
+    --sudoku-text-notes-hl: #60a5fa;
+
+    /* UI colors */
     --body-bg: #0f172a;
     --body-text: #f1f5f9;
+    --surface: #1e293b;
+    --surface-alt: #334155;
+    --text-muted: #94a3b8;
+    --text-muted-hover: #f1f5f9;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-muted: #1e3a8a;
+    --accent-text: #93c5fd;
+    --success: #4ade80;
+    --error: #f87171;
+    --ring-offset: #0f172a;
+
     color-scheme: dark;
 }
 
 :root[data-theme='light'] {
-    --sudoku-bg: #f1f5f9;
-    --sudoku-cell: #e2e8f0;
+    /* Sudoku grid - increased contrast */
+    --sudoku-bg: #e2e8f0;
+    --sudoku-cell: #f8fafc;
     --sudoku-cell-selected: #3b82f6;
     --sudoku-cell-highlighted: #dbeafe;
+    --sudoku-cell-same: #bfdbfe;
     --sudoku-cell-error: #fecaca;
     --sudoku-cell-given: #cbd5e1;
-    --sudoku-border: #cbd5e1;
-    --sudoku-border-thick: #64748b;
-    --body-bg: #f8fafc;
+    --sudoku-border: #64748b;
+    --sudoku-border-thick: #1e293b;
+    --sudoku-text-given: #0f172a;
+    --sudoku-text-entered: #1d4ed8;
+    --sudoku-text-notes: #475569;
+    --sudoku-text-notes-hl: #1d4ed8;
+
+    /* UI colors */
+    --body-bg: #f1f5f9;
     --body-text: #0f172a;
+    --surface: #ffffff;
+    --surface-alt: #e2e8f0;
+    --text-muted: #64748b;
+    --text-muted-hover: #0f172a;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-muted: #dbeafe;
+    --accent-text: #1e40af;
+    --success: #16a34a;
+    --error: #dc2626;
+    --ring-offset: #f1f5f9;
+
     color-scheme: light;
 }
 

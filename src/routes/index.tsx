@@ -86,21 +86,21 @@ function HomePage(): React.ReactElement {
     if (isChecking) {
         return (
             <div className="max-w-md mx-auto px-4 text-center">
-                <div className="animate-pulse text-slate-400">Loading...</div>
+                <div className="animate-pulse text-(--text-muted)">Loading...</div>
             </div>
         );
     }
 
     return (
         <div className="max-w-md mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold text-white mb-2">Sudoku</h1>
+            <h1 className="text-4xl font-bold text-(--body-text) mb-2">Sudoku</h1>
             {username ? (
-                <p className="text-slate-400 mb-1">
-                    Welcome, <span className="text-blue-400">{username}</span>
+                <p className="text-(--text-muted) mb-1">
+                    Welcome, <span className="text-(--accent)">{username}</span>
                 </p>
             ) : (
                 <div className="mb-1 flex items-center justify-center gap-2">
-                    <p className="text-slate-400">Playing as guest</p>
+                    <p className="text-(--text-muted)">Playing as guest</p>
                     <Button
                         size="sm"
                         variant="secondary"
@@ -110,7 +110,7 @@ function HomePage(): React.ReactElement {
                     </Button>
                 </div>
             )}
-            <p className="text-slate-500 text-sm mb-8">
+            <p className="text-(--text-muted) text-sm mb-8">
                 Select a difficulty to start
             </p>
             <div className="space-y-3">
@@ -126,7 +126,7 @@ function HomePage(): React.ReactElement {
                     </Button>
                 ))}
             </div>
-            <div className="mt-12 text-sm text-slate-500">
+            <div className="mt-12 text-sm text-(--text-muted)">
                 <p className="mb-2">How to play:</p>
                 <ul className="text-left space-y-1 max-w-xs mx-auto">
                     <li>Fill the 9x9 grid with numbers 1-9</li>

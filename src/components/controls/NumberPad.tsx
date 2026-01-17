@@ -27,8 +27,8 @@ export function NumberPad(): React.ReactElement {
                         disabled={isComplete}
                         className={`aspect-square sm:aspect-auto sm:py-3 flex flex-col items-center justify-center rounded-lg font-bold text-xl sm:text-2xl transition-colors ${
                             isComplete
-                                ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                                : 'bg-blue-900 text-blue-300 hover:bg-blue-800'
+                                ? 'bg-(--surface-alt) text-(--text-muted) cursor-not-allowed opacity-50'
+                                : 'bg-(--accent-muted) text-(--accent-text) hover:bg-(--accent-hover) hover:text-white'
                         }`}
                     >
                         {num}
@@ -42,7 +42,7 @@ export function NumberPad(): React.ReactElement {
             })}
             <button
                 onClick={() => setCell(0)}
-                className="aspect-square sm:aspect-auto sm:py-3 flex items-center justify-center rounded-lg font-medium text-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-colors"
+                className="aspect-square sm:aspect-auto sm:py-3 flex items-center justify-center rounded-lg font-medium text-lg bg-(--surface-alt) text-(--body-text) hover:bg-(--surface) transition-colors"
             >
                 Erase
             </button>

@@ -7,7 +7,7 @@ export const Route = createRootRoute({
 
 function RootLayout(): React.ReactElement {
     return (
-        <div className="min-h-screen bg-slate-900">
+        <div className="min-h-screen bg-(--body-bg)">
             <Header />
             <main className="py-6">
                 <Outlet />

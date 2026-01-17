@@ -7,7 +7,7 @@ export function ThemeToggle(): React.ReactElement {
     return (
         <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-slate-700 dark:hover:bg-slate-700 transition-colors"
+            className="p-2 rounded-lg hover:bg-(--surface-alt) transition-colors"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
         >
             {theme === 'dark' ? (
@@ -28,7 +28,7 @@ export function ThemeToggle(): React.ReactElement {
             ) : (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-slate-600"
+                    className="h-5 w-5 text-(--text-muted)"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

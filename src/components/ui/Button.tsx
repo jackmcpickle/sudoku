@@ -17,13 +17,14 @@ export function Button({
     ...props
 }: ButtonProps): React.ReactElement {
     const base =
-        'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed';
+        'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-(--ring-offset) disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-        primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+        primary:
+            'bg-(--accent) text-white hover:bg-(--accent-hover) focus:ring-(--accent)',
         secondary:
-            'bg-slate-700 text-slate-200 hover:bg-slate-600 focus:ring-slate-500',
-        ghost: 'bg-transparent text-slate-300 hover:bg-slate-800 focus:ring-slate-500',
+            'bg-(--surface-alt) text-(--body-text) hover:bg-(--surface) focus:ring-(--text-muted)',
+        ghost: 'bg-transparent text-(--text-muted) hover:bg-(--surface-alt) focus:ring-(--text-muted)',
     };
 
     const sizes = {

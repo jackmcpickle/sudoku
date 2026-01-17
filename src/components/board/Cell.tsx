@@ -23,19 +23,21 @@ export function Cell({
     selectedNumber,
     onClick,
 }: CellProps): React.ReactElement {
-    let bgClass = 'bg-[var(--sudoku-cell)]';
-    if (isSelected) bgClass = 'bg-[var(--sudoku-cell-selected)]';
-    else if (isError) bgClass = 'bg-[var(--sudoku-cell-error)]';
-    else if (isSameNumber) bgClass = 'bg-blue-900/50';
-    else if (isHighlighted) bgClass = 'bg-[var(--sudoku-cell-highlighted)]';
-    else if (isGiven) bgClass = 'bg-[var(--sudoku-cell-given)]';
+    let bgClass = 'bg-(--sudoku-cell)';
+    if (isSelected) bgClass = 'bg-(--sudoku-cell-selected)';
+    else if (isError) bgClass = 'bg-(--sudoku-cell-error)';
+    else if (isSameNumber) bgClass = 'bg-(--sudoku-cell-same)';
+    else if (isHighlighted) bgClass = 'bg-(--sudoku-cell-highlighted)';
+    else if (isGiven) bgClass = 'bg-(--sudoku-cell-given)';
 
-    const textClass = isGiven ? 'text-white font-bold' : 'text-blue-400';
+    const textClass = isGiven
+        ? 'text-(--sudoku-text-given) font-bold'
+        : 'text-(--sudoku-text-entered)';
 
     return (
         <button
             type="button"
-            className={`aspect-square flex items-center justify-center cursor-pointer transition-colors ${bgClass}`}
+            className={`aspect-square w-full flex items-center justify-center cursor-pointer transition-colors ${bgClass}`}
             onClick={onClick}
         >
             {value !== 0 ? (
@@ -49,8 +51,8 @@ export function Cell({
                             key={n}
                             className={`flex items-center justify-center text-[8px] sm:text-[10px] ${
                                 notes.has(n) && selectedNumber === n
-                                    ? 'text-blue-400 font-bold'
-                                    : 'text-slate-500'
+                                    ? 'text-(--sudoku-text-notes-hl) font-bold'
+                                    : 'text-(--sudoku-text-notes)'
                             }`}
                         >
                             {notes.has(n) ? n : ''}

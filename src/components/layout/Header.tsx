@@ -7,35 +7,35 @@ export function Header(): React.ReactElement {
     const isNotesMode = useGameStore((state) => state.isNotesMode);
 
     return (
-        <header className="bg-slate-800 shadow-sm">
+        <header className="bg-(--surface) shadow-sm">
             <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
                 <Link
                     to="/"
-                    className="text-xl font-bold text-white"
+                    className="text-xl font-bold text-(--body-text)"
                 >
                     Sudoku
                 </Link>
                 <nav className="flex items-center gap-4">
                     {puzzle && isNotesMode && (
-                        <span className="px-2 py-1 text-xs font-medium bg-blue-900 text-blue-300 rounded">
+                        <span className="px-2 py-1 text-xs font-medium bg-(--accent-muted) text-(--accent-text) rounded">
                             NOTES
                         </span>
                     )}
                     <Link
                         to="/"
-                        className="text-slate-400 hover:text-white"
+                        className="text-(--text-muted) hover:text-(--text-muted-hover)"
                     >
                         Home
                     </Link>
                     <Link
                         to="/scores"
-                        className="text-slate-400 hover:text-white"
+                        className="text-(--text-muted) hover:text-(--text-muted-hover)"
                     >
                         Scores
                     </Link>
                     <Link
                         to="/help"
-                        className="text-slate-400 hover:text-white"
+                        className="text-(--text-muted) hover:text-(--text-muted-hover)"
                     >
                         Help
                     </Link>

@@ -24,16 +24,16 @@ export function ResumeGameModal({
             title="Continue Game?"
         >
             <div className="space-y-4">
-                <p className="text-slate-300">
+                <p className="text-(--text-muted)">
                     You have an unfinished{' '}
-                    <span className="capitalize font-medium text-white">
+                    <span className="capitalize font-medium text-(--body-text)">
                         {difficulty}
                     </span>{' '}
                     game.
                 </p>
-                <div className="bg-slate-700 rounded-lg p-3 text-center">
-                    <div className="text-sm text-slate-400">Time played</div>
-                    <div className="text-xl font-mono text-white">
+                <div className="bg-(--surface-alt) rounded-lg p-3 text-center">
+                    <div className="text-sm text-(--text-muted)">Time played</div>
+                    <div className="text-xl font-mono text-(--body-text)">
                         {formatTime(timer)}
                     </div>
                 </div>
