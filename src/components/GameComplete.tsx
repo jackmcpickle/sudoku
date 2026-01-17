@@ -48,7 +48,7 @@ export function GameComplete(): React.ReactElement | null {
 
             // Submit to API
             if (visitorId && username) {
-                submitScore({
+                void submitScore({
                     difficulty: puzzle.difficulty,
                     score: finalScore,
                     timeSeconds: timer,
@@ -73,8 +73,10 @@ export function GameComplete(): React.ReactElement | null {
 
     if (!isComplete || !puzzle) return null;
 
+    const currentDifficulty = puzzle.difficulty;
+
     const breakdown = calculateScore({
-        difficulty: puzzle.difficulty,
+        difficulty: currentDifficulty,
         timeSeconds: timer,
         hintsUsed,
         pointsLost,
@@ -84,13 +86,13 @@ export function GameComplete(): React.ReactElement | null {
     function handleNewGame(): void {
         savedRef.current = false;
         reset();
-        navigate({ to: '/' });
+        void navigate({ to: '/' });
     }
 
     function handlePlayAgain(): void {
         savedRef.current = false;
         reset();
-        navigate({ to: '/play', search: { difficulty: puzzle.difficulty } });
+        void navigate({ to: '/play', search: { difficulty: currentDifficulty } });
     }
 
     return (

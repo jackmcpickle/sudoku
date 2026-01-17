@@ -27,13 +27,13 @@ function HomePage(): React.ReactElement {
     const [hasChecked, setHasChecked] = useState(false);
 
     useEffect(() => {
-        init();
+        void init();
     }, [init]);
 
     useEffect(() => {
         if (!visitorId) return;
 
-        getSavedGame(visitorId).then((game) => {
+        void getSavedGame(visitorId).then((game) => {
             if (game) {
                 setSavedGame(game);
                 setShowResumeModal(true);
@@ -50,7 +50,7 @@ function HomePage(): React.ReactElement {
             setSavedGame(null);
         }
         reset();
-        navigate({ to: '/play', search: { difficulty } });
+        void navigate({ to: '/play', search: { difficulty } });
     }
 
     function handleResume(): void {
@@ -67,7 +67,7 @@ function HomePage(): React.ReactElement {
             history: savedGame.history,
         });
         setShowResumeModal(false);
-        navigate({
+        void navigate({
             to: '/play',
             search: { difficulty: savedGame.difficulty, resume: true },
         });

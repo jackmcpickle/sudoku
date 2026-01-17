@@ -37,7 +37,7 @@ export function useAutoSave(): { initializedRef: React.MutableRefObject<boolean>
             })),
         );
 
-        saveGame(visitorId, {
+        void saveGame(visitorId, {
             difficulty: puzzle.difficulty,
             puzzle: puzzle.grid,
             solution: puzzle.solution,
@@ -63,7 +63,7 @@ export function useAutoSave(): { initializedRef: React.MutableRefObject<boolean>
     // Delete saved game when complete
     useEffect(() => {
         if (isComplete && visitorId) {
-            deleteGame(visitorId);
+            void deleteGame(visitorId);
         }
     }, [isComplete, visitorId]);
 

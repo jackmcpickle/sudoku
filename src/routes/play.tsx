@@ -56,7 +56,7 @@ function PlayPage(): React.ReactElement {
 
     function handleNewGame(): void {
         reset();
-        navigate({ to: '/' });
+        void navigate({ to: '/' });
     }
 
     if (isGenerating || !puzzle) {

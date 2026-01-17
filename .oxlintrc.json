@@ -66,6 +66,7 @@
         "static/",
         "tailwind.config.js",
         "postcss.config.mjs",
-        "vite.config.ts"
+        "vite.config.ts",
+        "src/worker.ts"
     ]
 }
