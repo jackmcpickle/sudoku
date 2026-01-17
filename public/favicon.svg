@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="64" fill="#1e293b"/>
+  <g fill="none" stroke="#475569" stroke-width="4">
+    <rect x="48" y="48" width="416" height="416" rx="16"/>
+    <line x1="186" y1="48" x2="186" y2="464"/>
+    <line x1="326" y1="48" x2="326" y2="464"/>
+    <line x1="48" y1="186" x2="464" y2="186"/>
+    <line x1="48" y1="326" x2="464" y2="326"/>
+  </g>
+  <g fill="#3b82f6" font-family="system-ui, sans-serif" font-weight="bold" font-size="72" text-anchor="middle" dominant-baseline="central">
+    <text x="117" y="117">9</text>
+    <text x="256" y="117">4</text>
+    <text x="395" y="256">7</text>
+    <text x="117" y="395">2</text>
+    <text x="256" y="395">5</text>
+  </g>
+  <g fill="#94a3b8" font-family="system-ui, sans-serif" font-weight="bold" font-size="72" text-anchor="middle" dominant-baseline="central">
+    <text x="395" y="117">1</text>
+    <text x="117" y="256">6</text>
+    <text x="256" y="256">8</text>
+    <text x="395" y="395">3</text>
+  </g>
+</svg>

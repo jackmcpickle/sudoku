@@ -11,14 +11,17 @@ export function GameControls() {
   const puzzle = useGameStore(state => state.puzzle)
   const history = useGameStore(state => state.history)
   const mistakes = useGameStore(state => state.mistakes)
+  const pointsLost = useGameStore(state => state.pointsLost)
 
   const maxHints = puzzle ? DIFFICULTY_CONFIG[puzzle.difficulty].maxHints : 0
   const hintsRemaining = maxHints - hintsUsed
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-center gap-2 text-sm text-slate-400">
+      <div className="flex justify-center gap-3 text-sm text-slate-400">
         <span>Mistakes: <strong className={mistakes > 0 ? 'text-red-400' : ''}>{mistakes}</strong></span>
+        <span>|</span>
+        <span>Points Lost: <strong className={pointsLost > 0 ? 'text-red-400' : ''}>{pointsLost}</strong></span>
         <span>|</span>
         <span>Hints: <strong>{hintsRemaining}/{maxHints}</strong></span>
       </div>

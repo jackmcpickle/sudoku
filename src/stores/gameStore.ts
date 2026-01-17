@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type { Action, Board, CellValue, Difficulty, Grid, Position, Puzzle } from '@/types'
 import { getAffectedPositions } from '@/lib/sudoku/validator'
 import { getUserId } from '@/lib/storage'
+import { DIFFICULTY_CONFIG } from '@/lib/sudoku/difficulty'
 
 interface GameState {
   puzzle: Puzzle | null
@@ -12,6 +13,7 @@ interface GameState {
   timer: number
   hintsUsed: number
   mistakes: number
+  pointsLost: number
   history: Action[]
   isComplete: boolean
   isPaused: boolean
@@ -26,6 +28,7 @@ interface GameState {
     timer: number
     hintsUsed: number
     mistakes: number
+    pointsLost: number
     history: Action[]
   }) => void
   selectCell: (pos: Position | null) => void
@@ -76,6 +79,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   timer: 0,
   hintsUsed: 0,
   mistakes: 0,
+  pointsLost: 0,
   history: [],
   isComplete: false,
   isPaused: false,
@@ -91,6 +95,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       timer: 0,
       hintsUsed: 0,
       mistakes: 0,
+      pointsLost: 0,
       history: [],
       isComplete: false,
       isPaused: false,
@@ -112,6 +117,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       timer: data.timer,
       hintsUsed: data.hintsUsed,
       mistakes: data.mistakes,
+      pointsLost: data.pointsLost,
       history: data.history,
       selectedCell: null,
       isNotesMode: false,
@@ -123,8 +129,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   selectCell: (pos) => set({ selectedCell: pos }),
 
   setCell: (value) => {
-    const { selectedCell, board, solution, isNotesMode, history, isComplete } = get()
-    if (!selectedCell || isComplete) return
+    const { selectedCell, board, solution, isNotesMode, history, isComplete, puzzle, pointsLost } = get()
+    if (!selectedCell || isComplete || !puzzle) return
 
     const { row, col } = selectedCell
     const cell = board[row][col]
@@ -148,9 +154,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     newBoard[row][col].notes.clear()
 
     let newMistakes = get().mistakes
+    let newPointsLost = pointsLost
     const isCorrect = value === 0 || solution[row][col] === value
 
-    if (!isCorrect) newMistakes++
+    if (!isCorrect) {
+      newMistakes++
+      const config = DIFFICULTY_CONFIG[puzzle.difficulty]
+      newPointsLost += Math.floor(config.mistakePenalty * config.difficultyMultiplier)
+    }
     if (isCorrect && value !== 0) clearNotesForValue(newBoard, row, col, value)
 
     let complete = true
@@ -167,6 +178,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({
       board: newBoard,
       mistakes: newMistakes,
+      pointsLost: newPointsLost,
       history: [...history, action],
       isComplete: complete,
     })
@@ -271,6 +283,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     timer: 0,
     hintsUsed: 0,
     mistakes: 0,
+    pointsLost: 0,
     history: [],
     isComplete: false,
     isPaused: false,

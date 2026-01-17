@@ -12,6 +12,7 @@ export function GameComplete() {
   const timer = useGameStore(state => state.timer)
   const hintsUsed = useGameStore(state => state.hintsUsed)
   const mistakes = useGameStore(state => state.mistakes)
+  const pointsLost = useGameStore(state => state.pointsLost)
   const userId = useGameStore(state => state.userId)
   const reset = useGameStore(state => state.reset)
 
@@ -26,7 +27,7 @@ export function GameComplete() {
           difficulty: puzzle.difficulty,
           timeSeconds: timer,
           hintsUsed,
-          mistakes,
+          pointsLost,
           completed: true,
         }).totalScore,
         timeSeconds: timer,
@@ -35,7 +36,7 @@ export function GameComplete() {
         userId,
       })
     }
-  }, [isComplete, puzzle, timer, hintsUsed, mistakes, userId])
+  }, [isComplete, puzzle, timer, hintsUsed, mistakes, pointsLost, userId])
 
   if (!isComplete || !puzzle) return null
 
@@ -43,7 +44,7 @@ export function GameComplete() {
     difficulty: puzzle.difficulty,
     timeSeconds: timer,
     hintsUsed,
-    mistakes,
+    pointsLost,
     completed: true,
   })
 
@@ -75,7 +76,7 @@ export function GameComplete() {
           <div className="flex justify-between text-slate-300"><span>Base Score</span><span>{breakdown.baseScore}</span></div>
           {breakdown.timeBonus > 0 && <div className="flex justify-between text-green-400"><span>Time Bonus</span><span>+{breakdown.timeBonus}</span></div>}
           {breakdown.hintPenalty > 0 && <div className="flex justify-between text-red-400"><span>Hint Penalty</span><span>-{breakdown.hintPenalty}</span></div>}
-          {breakdown.mistakePenalty > 0 && <div className="flex justify-between text-red-400"><span>Mistake Penalty</span><span>-{breakdown.mistakePenalty}</span></div>}
+          {breakdown.pointsLost > 0 && <div className="flex justify-between text-red-400"><span>Mistake Penalty</span><span>-{breakdown.pointsLost}</span></div>}
           <div className="flex justify-between text-blue-400"><span>Difficulty Multiplier</span><span>x{breakdown.difficultyMultiplier}</span></div>
         </div>
         <div className="flex gap-2">

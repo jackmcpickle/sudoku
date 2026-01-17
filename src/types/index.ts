@@ -50,6 +50,7 @@ export interface SavedGame {
   timer: number
   hintsUsed: number
   mistakes: number
+  pointsLost: number
   history: Action[]
   updatedAt: string
   userId: string

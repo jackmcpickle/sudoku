@@ -15,6 +15,7 @@ export function Header() {
           )}
           <Link to="/" className="text-slate-400 hover:text-white">Home</Link>
           <Link to="/scores" className="text-slate-400 hover:text-white">Scores</Link>
+          <Link to="/help" className="text-slate-400 hover:text-white">Help</Link>
         </nav>
       </div>
     </header>

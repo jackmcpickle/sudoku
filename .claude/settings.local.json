@@ -3,7 +3,10 @@
     "allow": [
       "WebFetch(domain:developers.cloudflare.com)",
       "WebFetch(domain:blog.cloudflare.com)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx vite build:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:*)"
     ]
   }
 }

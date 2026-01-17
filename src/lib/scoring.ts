@@ -5,7 +5,7 @@ export interface ScoreFactors {
   difficulty: Difficulty
   timeSeconds: number
   hintsUsed: number
-  mistakes: number
+  pointsLost: number
   completed: boolean
 }
 
@@ -13,7 +13,7 @@ export interface ScoreBreakdown {
   baseScore: number
   timeBonus: number
   hintPenalty: number
-  mistakePenalty: number
+  pointsLost: number
   difficultyMultiplier: number
   totalScore: number
 }
@@ -24,7 +24,7 @@ export function calculateScore(factors: ScoreFactors): ScoreBreakdown {
       baseScore: 0,
       timeBonus: 0,
       hintPenalty: 0,
-      mistakePenalty: 0,
+      pointsLost: 0,
       difficultyMultiplier: 1,
       totalScore: 0,
     }
@@ -34,17 +34,16 @@ export function calculateScore(factors: ScoreFactors): ScoreBreakdown {
   const baseScore = config.baseScore
   const timeRatio = Math.max(0, (config.timeBonusThreshold - factors.timeSeconds) / config.timeBonusThreshold)
   const timeBonus = Math.floor(baseScore * 0.5 * timeRatio)
-  const hintPenalty = factors.hintsUsed * config.hintPenalty
-  const mistakePenalty = factors.mistakes * config.mistakePenalty
+  const hintPenalty = Math.floor(factors.hintsUsed * config.hintPenalty * config.difficultyMultiplier)
   const difficultyMultiplier = config.difficultyMultiplier
-  const rawScore = baseScore + timeBonus - hintPenalty - mistakePenalty
+  const rawScore = baseScore + timeBonus - hintPenalty - factors.pointsLost
   const totalScore = Math.max(0, Math.floor(rawScore * difficultyMultiplier))
 
   return {
     baseScore,
     timeBonus,
     hintPenalty,
-    mistakePenalty,
+    pointsLost: factors.pointsLost,
     difficultyMultiplier,
     totalScore,
   }
