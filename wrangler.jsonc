@@ -9,7 +9,7 @@
   "kv_namespaces": [
     {
       "binding": "SUDOKU_STATE",
-      "id": "sudoku_game_state"
+      "id": "bacf99e993864ef99040e4173044b087"
     }
   ]
 }

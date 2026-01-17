@@ -8,7 +8,8 @@
       "Bash(pnpm add:*)",
       "Bash(pnpm build:*)",
       "Bash(pnpm test:run:*)",
-      "Bash(pnpm lint:*)"
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm wrangler kv namespace create:*)"
     ]
   }
 }
