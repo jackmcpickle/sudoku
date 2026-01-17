@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev --kv SUDOKU_STATE",
+    "dev": "pnpm build && wrangler dev",
     "dev:vite": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "pnpm build && wrangler dev --kv SUDOKU_STATE",
+    "preview": "wrangler dev",
+    "deploy": "pnpm build && wrangler deploy",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
@@ -24,6 +25,7 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260117.0",
     "@eslint/js": "^9.39.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/router-plugin": "^1.150.0",
