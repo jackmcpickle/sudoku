@@ -22,7 +22,7 @@ export function Cell({
     notes,
     selectedNumber,
     onClick,
-}: CellProps) {
+}: CellProps): React.ReactElement {
     let bgClass = 'bg-[var(--sudoku-cell)]';
     if (isSelected) bgClass = 'bg-[var(--sudoku-cell-selected)]';
     else if (isError) bgClass = 'bg-[var(--sudoku-cell-error)]';
@@ -33,7 +33,8 @@ export function Cell({
     const textClass = isGiven ? 'text-white font-bold' : 'text-blue-400';
 
     return (
-        <div
+        <button
+            type="button"
             className={`aspect-square flex items-center justify-center cursor-pointer transition-colors ${bgClass}`}
             onClick={onClick}
         >
@@ -57,6 +58,6 @@ export function Cell({
                     ))}
                 </div>
             ) : null}
-        </div>
+        </button>
     );
 }

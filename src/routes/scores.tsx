@@ -14,7 +14,7 @@ export const Route = createFileRoute('/scores')({
     component: ScoresPage,
 });
 
-function ScoresPage() {
+function ScoresPage(): React.ReactElement {
     const [selectedDifficulty, setSelectedDifficulty] = useState<
         Difficulty | undefined
     >(undefined);

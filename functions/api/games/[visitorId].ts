@@ -115,7 +115,22 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
     });
 };
 
-function mapGame(row: typeof schema.games.$inferSelect) {
+interface MappedGame {
+    id: string;
+    visitorId: string;
+    difficulty: string;
+    puzzle: unknown;
+    solution: unknown;
+    board: unknown;
+    timer: number;
+    hintsUsed: number;
+    mistakes: number;
+    pointsLost: number;
+    history: unknown;
+    updatedAt: string;
+}
+
+function mapGame(row: typeof schema.games.$inferSelect): MappedGame {
     return {
         id: row.id,
         visitorId: row.visitorId,

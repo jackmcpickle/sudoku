@@ -8,7 +8,7 @@ interface ModalProps {
     title?: string;
 }
 
-export function Modal({ isOpen, onClose, children, title }: ModalProps) {
+export function Modal({ isOpen, onClose, children, title }: ModalProps): React.ReactElement | null {
     useEffect(() => {
         if (isOpen) document.body.style.overflow = 'hidden';
         else document.body.style.overflow = '';
@@ -18,9 +18,9 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
     }, [isOpen]);
 
     useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
+        function handleEscape(e: KeyboardEvent): void {
             if (e.key === 'Escape') onClose();
-        };
+        }
         if (isOpen) {
             window.addEventListener('keydown', handleEscape);
             return () => window.removeEventListener('keydown', handleEscape);
@@ -31,9 +31,12 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div
-                className="absolute inset-0 bg-black/70"
+            <button
+                type="button"
+                className="absolute inset-0 bg-black/70 cursor-default"
                 onClick={onClose}
+                tabIndex={-1}
+                aria-label="Close modal"
             />
             <div className="relative z-10 bg-slate-800 rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
                 {title && (

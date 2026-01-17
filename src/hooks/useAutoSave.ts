@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/userStore';
 import { saveGame, deleteGame } from '@/lib/api';
 import type { CellValue } from '@/types';
 
-export function useAutoSave() {
+export function useAutoSave(): { initializedRef: React.MutableRefObject<boolean> } {
     const puzzle = useGameStore((state) => state.puzzle);
     const board = useGameStore((state) => state.board);
     const timer = useGameStore((state) => state.timer);

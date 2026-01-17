@@ -1,6 +1,19 @@
 import { useGameStore } from '@/stores/gameStore';
+import type { Board, Action, Puzzle } from '@/types';
 
-export function useGameState() {
+interface GameState {
+    puzzle: Puzzle | null;
+    board: Board;
+    timer: number;
+    hintsUsed: number;
+    mistakes: number;
+    pointsLost: number;
+    history: Action[];
+    isComplete: boolean;
+    userId: string;
+}
+
+export function useGameState(): GameState {
     const puzzle = useGameStore((state) => state.puzzle);
     const board = useGameStore((state) => state.board);
     const timer = useGameStore((state) => state.timer);
@@ -24,7 +37,12 @@ export function useGameState() {
     };
 }
 
-export function useGameActions() {
+interface GameActions {
+    newGame: (puzzle: Puzzle) => void;
+    reset: () => void;
+}
+
+export function useGameActions(): GameActions {
     const newGame = useGameStore((state) => state.newGame);
     const reset = useGameStore((state) => state.reset);
 

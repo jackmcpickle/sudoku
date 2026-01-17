@@ -7,7 +7,7 @@ import { calculateScore, formatTime } from '@/lib/scoring';
 import { Modal, Button } from '@/components/ui';
 import { useEffect, useRef } from 'react';
 
-export function GameComplete() {
+export function GameComplete(): React.ReactElement | null {
     const navigate = useNavigate();
     const {
         isComplete,
@@ -81,17 +81,17 @@ export function GameComplete() {
         completed: true,
     });
 
-    const handleNewGame = () => {
+    function handleNewGame(): void {
         savedRef.current = false;
         reset();
         navigate({ to: '/' });
-    };
+    }
 
-    const handlePlayAgain = () => {
+    function handlePlayAgain(): void {
         savedRef.current = false;
         reset();
         navigate({ to: '/play', search: { difficulty: puzzle.difficulty } });
-    };
+    }
 
     return (
         <Modal

@@ -1,7 +1,7 @@
 import { useGameStore } from '@/stores/gameStore';
 import type { CellValue } from '@/types';
 
-export function NumberPad() {
+export function NumberPad(): React.ReactElement {
     const setCell = useGameStore((state) => state.setCell);
     const board = useGameStore((state) => state.board);
     const isNotesMode = useGameStore((state) => state.isNotesMode);

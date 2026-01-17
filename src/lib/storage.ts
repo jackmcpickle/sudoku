@@ -4,6 +4,7 @@ import {
     sortScoresByScore,
     limitScores,
     aggregateStats,
+    type UserStats,
 } from './storage-pure';
 
 const GAMES_KEY = 'sudoku-games';
@@ -98,7 +99,7 @@ export function saveScore(
     return newScore;
 }
 
-export function getUserStats(userId: string) {
+export function getUserStats(userId: string): UserStats {
     const scores = getUserScores(userId);
     return aggregateStats(scores);
 }

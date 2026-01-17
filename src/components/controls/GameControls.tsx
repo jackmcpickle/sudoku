@@ -2,7 +2,7 @@ import { useGameStore } from '@/stores/gameStore';
 import { Button } from '@/components/ui';
 import { DIFFICULTY_CONFIG } from '@/lib/sudoku/difficulty';
 
-export function GameControls() {
+export function GameControls(): React.ReactElement {
     const isNotesMode = useGameStore((state) => state.isNotesMode);
     const toggleNotesMode = useGameStore((state) => state.toggleNotesMode);
     const undo = useGameStore((state) => state.undo);

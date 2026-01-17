@@ -14,7 +14,7 @@ export const Route = createFileRoute('/')({
     component: HomePage,
 });
 
-function HomePage() {
+function HomePage(): React.ReactElement {
     const navigate = useNavigate();
     const username = useUserStore((state) => state.username);
     const visitorId = useUserStore((state) => state.visitorId);
@@ -44,16 +44,16 @@ function HomePage() {
 
     const isChecking = !hasChecked && visitorId;
 
-    const handleStart = async (difficulty: Difficulty) => {
+    async function handleStart(difficulty: Difficulty): Promise<void> {
         if (savedGame) {
             await deleteGame(visitorId);
             setSavedGame(null);
         }
         reset();
         navigate({ to: '/play', search: { difficulty } });
-    };
+    }
 
-    const handleResume = () => {
+    function handleResume(): void {
         if (!savedGame) return;
         loadGame({
             puzzle: savedGame.puzzle,
@@ -71,17 +71,17 @@ function HomePage() {
             to: '/play',
             search: { difficulty: savedGame.difficulty, resume: true },
         });
-    };
+    }
 
     const [showUsernameModal, setShowUsernameModal] = useState(false);
 
-    const handleNewGame = async () => {
+    async function handleNewGame(): Promise<void> {
         if (savedGame) {
             await deleteGame(visitorId);
             setSavedGame(null);
         }
         setShowResumeModal(false);
-    };
+    }
 
     if (isChecking) {
         return (

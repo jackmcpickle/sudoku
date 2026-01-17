@@ -15,7 +15,7 @@ function getSystemTheme(): Theme {
         : 'light';
 }
 
-function applyTheme(theme: Theme) {
+function applyTheme(theme: Theme): void {
     document.documentElement.setAttribute('data-theme', theme);
 }
 
@@ -46,7 +46,7 @@ export const useThemeStore = create<ThemeState>()(
     ),
 );
 
-export function initTheme() {
+export function initTheme(): void {
     const stored = localStorage.getItem('sudoku-theme');
     if (!stored) {
         const systemTheme = getSystemTheme();

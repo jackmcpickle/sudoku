@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useGameStore } from '@/stores/gameStore';
 import type { CellValue } from '@/types';
 
-export function useKeyboard() {
+export function useKeyboard(): void {
     const selectedCell = useGameStore((state) => state.selectedCell);
     const selectCell = useGameStore((state) => state.selectCell);
     const setCell = useGameStore((state) => state.setCell);
@@ -14,7 +14,7 @@ export function useKeyboard() {
     useEffect(() => {
         if (!puzzle || isComplete) return;
 
-        const handleKeyDown = (e: KeyboardEvent) => {
+        function handleKeyDown(e: KeyboardEvent): void {
             if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
                 e.preventDefault();
                 undo();
@@ -60,7 +60,7 @@ export function useKeyboard() {
                     setCell(0);
                 }
             }
-        };
+        }
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);

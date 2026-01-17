@@ -16,7 +16,7 @@ export function ResumeGameModal({
     timer,
     onResume,
     onNewGame,
-}: ResumeGameModalProps) {
+}: ResumeGameModalProps): React.ReactElement {
     return (
         <Modal
             isOpen={isOpen}

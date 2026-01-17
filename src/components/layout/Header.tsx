@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { useGameStore } from '@/stores/gameStore';
 import { ThemeToggle } from '@/components/ui';
 
-export function Header() {
+export function Header(): React.ReactElement {
     const puzzle = useGameStore((state) => state.puzzle);
     const isNotesMode = useGameStore((state) => state.isNotesMode);
 

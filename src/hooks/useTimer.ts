@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useGameStore } from '@/stores/gameStore';
 import { formatTime } from '@/lib/scoring';
 
-export function useTimer() {
+export function useTimer(): { seconds: number; formatted: string } {
     const timer = useGameStore((state) => state.timer);
     const tick = useGameStore((state) => state.tick);
     const puzzle = useGameStore((state) => state.puzzle);

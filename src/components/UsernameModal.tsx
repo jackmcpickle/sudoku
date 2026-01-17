@@ -11,7 +11,7 @@ interface UsernameModalProps {
     onClose?: () => void;
 }
 
-export function UsernameModal({ isOpen, onClose }: UsernameModalProps) {
+export function UsernameModal({ isOpen, onClose }: UsernameModalProps): React.ReactElement {
     const [input, setInput] = useState('');
     const [validationError, setValidationError] = useState('');
     const [showResumePrompt, setShowResumePrompt] = useState(false);
@@ -24,13 +24,13 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps) {
     const error = useUserStore((state) => state.error);
     const clearError = useUserStore((state) => state.clearError);
 
-    const handleGenerateName = () => {
+    function handleGenerateName(): void {
         setInput(generateFunName());
         setValidationError('');
         clearError();
-    };
+    }
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    async function handleSubmit(e: React.FormEvent): Promise<void> {
         e.preventDefault();
         setValidationError('');
         clearError();
@@ -59,9 +59,9 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps) {
         } catch {
             // Error handled in store
         }
-    };
+    }
 
-    const handleResume = async () => {
+    async function handleResume(): Promise<void> {
         if (!existingVisitorId) return;
         try {
             await loginByUsername(input.trim(), existingVisitorId);
@@ -70,12 +70,12 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps) {
         } catch {
             // Error handled in store
         }
-    };
+    }
 
-    const handleCancel = () => {
+    function handleCancel(): void {
         setShowResumePrompt(false);
         setExistingVisitorId(null);
-    };
+    }
 
     if (showResumePrompt) {
         return (
@@ -131,7 +131,6 @@ export function UsernameModal({ isOpen, onClose }: UsernameModalProps) {
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Enter username"
                             className="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            autoFocus
                             disabled={isLoading}
                         />
                         <Button

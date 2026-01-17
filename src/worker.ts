@@ -7,11 +7,12 @@ interface Env {
     ASSETS: Fetcher;
 }
 
+// eslint-disable-next-line import/no-default-export -- Workers require default export
 export default {
     async fetch(
         request: Request,
         env: Env,
-        ctx: ExecutionContext,
+        _ctx: ExecutionContext,
     ): Promise<Response> {
         const url = new URL(request.url);
         const path = url.pathname;

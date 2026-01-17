@@ -1,7 +1,7 @@
 import { useGameStore } from '@/stores/gameStore';
 import { Cell } from './Cell';
 
-export function Board() {
+export function Board(): React.ReactElement {
     const board = useGameStore((state) => state.board);
     const solution = useGameStore((state) => state.solution);
     const selectedCell = useGameStore((state) => state.selectedCell);

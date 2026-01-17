@@ -75,13 +75,13 @@ export function getAffectedPositions(row: number, col: number): Position[] {
     const positions: Position[] = [];
     const seen = new Set<string>();
 
-    const add = (r: number, c: number) => {
+    function add(r: number, c: number): void {
         const key = `${r}-${c}`;
         if (!seen.has(key) && (r !== row || c !== col)) {
             seen.add(key);
             positions.push({ row: r, col: c });
         }
-    };
+    }
 
     for (let c = 0; c < 9; c++) add(row, c);
     for (let r = 0; r < 9; r++) add(r, col);

@@ -19,7 +19,7 @@ export const Route = createFileRoute('/play')({
     component: PlayPage,
 });
 
-function PlayPage() {
+function PlayPage(): React.ReactElement {
     const { difficulty, resume } = Route.useSearch();
     const navigate = useNavigate();
     const generatingRef = useRef(false);
@@ -54,10 +54,10 @@ function PlayPage() {
     const isGenerating =
         !puzzle || (puzzle.difficulty !== difficulty && !resume);
 
-    const handleNewGame = () => {
+    function handleNewGame(): void {
         reset();
         navigate({ to: '/' });
-    };
+    }
 
     if (isGenerating || !puzzle) {
         return (

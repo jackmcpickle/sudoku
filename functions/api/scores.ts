@@ -119,7 +119,19 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 };
 
-function mapScore(row: typeof schema.scores.$inferSelect) {
+interface MappedScore {
+    id: string;
+    visitorId: string;
+    username: string;
+    difficulty: string;
+    score: number;
+    timeSeconds: number;
+    hintsUsed: number;
+    mistakes: number;
+    completedAt: string;
+}
+
+function mapScore(row: typeof schema.scores.$inferSelect): MappedScore {
     return {
         id: row.id,
         visitorId: row.visitorId,

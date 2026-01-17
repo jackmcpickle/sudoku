@@ -5,7 +5,7 @@ export const Route = createFileRoute('/help')({
     component: HelpPage,
 });
 
-function HelpPage() {
+function HelpPage(): React.ReactElement {
     return (
         <div className="max-w-2xl mx-auto px-4">
             <h1 className="text-2xl font-bold text-white mb-6">How to Play</h1>
