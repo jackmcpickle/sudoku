@@ -24,8 +24,8 @@ export function Cell({
     onClick,
 }: CellProps): React.ReactElement {
     let bgClass = 'bg-(--sudoku-cell)';
-    if (isSelected) bgClass = 'bg-(--sudoku-cell-selected)';
-    else if (isError) bgClass = 'bg-(--sudoku-cell-error)';
+    if (isError) bgClass = 'bg-(--sudoku-cell-error)';
+    else if (isSelected) bgClass = 'bg-(--sudoku-cell-selected)';
     else if (isSameNumber) bgClass = 'bg-(--sudoku-cell-same)';
     else if (isHighlighted) bgClass = 'bg-(--sudoku-cell-highlighted)';
     else if (isGiven) bgClass = 'bg-(--sudoku-cell-given)';
