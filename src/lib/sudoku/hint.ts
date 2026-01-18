@@ -45,8 +45,10 @@ interface HintCandidate {
  *
  * Priority order:
  * 1. Cells with fewer candidates (naked singles with 1 candidate are best)
- * 2. If selectedCell exists, prefer cells in the same row/column
- * 3. Closer cells (by Manhattan distance) are preferred
+ * 2. If selectedCell exists, prefer cells in the same row
+ * 3. If selectedCell exists, prefer cells in the same column
+ * 4. Closer cells (by Manhattan distance) are preferred
+ * 5. Cells that share a unit (row/column/box) with selected cell
  *
  * @param board - The current game board
  * @param selectedCell - The currently selected cell (optional)
@@ -99,21 +101,27 @@ export function findBestHintCell(
             return a.candidateCount - b.candidateCount;
         }
 
-        // 2. If selected cell exists, prefer cells in same row/column
+        // 2. If selected cell exists, prefer cells in same row
         if (a.inSameRow !== b.inSameRow) {
             return a.inSameRow ? -1 : 1;
         }
+
+        // 3. If selected cell exists, prefer cells in same column
         if (a.inSameCol !== b.inSameCol) {
             return a.inSameCol ? -1 : 1;
         }
 
-        // 3. Prefer cells that share a unit with selected cell
-        if (a.sharesUnitWithSelected !== b.sharesUnitWithSelected) {
-            return a.sharesUnitWithSelected ? -1 : 1;
+        // 4. Closer cells are better
+        if (a.distance !== b.distance) {
+            return a.distance - b.distance;
         }
 
-        // 4. Closer cells are better
-        return a.distance - b.distance;
+        // 5. Prefer cells that share a unit with selected cell
+        return a.sharesUnitWithSelected === b.sharesUnitWithSelected
+            ? 0
+            : a.sharesUnitWithSelected
+              ? -1
+              : 1;
     });
 
     return candidates[0].position;
