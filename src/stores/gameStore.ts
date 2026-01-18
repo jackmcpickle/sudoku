@@ -239,15 +239,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         } = get();
         if (isComplete || !puzzle) return;
 
-        // Find the best cell to hint
-        // If selected cell is empty and not given, use it; otherwise find the best one
-        let hintCell = selectedCell;
-
-        if (!hintCell || board[hintCell.row][hintCell.col].isGiven ||
-            board[hintCell.row][hintCell.col].value !== 0) {
-            // Find the best cell using the hint algorithm
-            hintCell = findBestHintCell(board, selectedCell);
-        }
+        // Find the best cell to hint using the algorithm
+        // selectedCell is passed as a bias parameter to prefer nearby cells
+        const hintCell = findBestHintCell(board, selectedCell);
 
         if (!hintCell) return; // No empty cells to hint
 
