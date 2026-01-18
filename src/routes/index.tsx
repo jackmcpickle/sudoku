@@ -86,14 +86,18 @@ function HomePage(): React.ReactElement {
     if (isChecking) {
         return (
             <div className="max-w-md mx-auto px-4 text-center">
-                <div className="animate-pulse text-(--text-muted)">Loading...</div>
+                <div className="animate-pulse text-(--text-muted)">
+                    Loading...
+                </div>
             </div>
         );
     }
 
     return (
         <div className="max-w-md mx-auto px-4 text-center">
-            <h1 className="text-4xl font-bold text-(--body-text) mb-2">Sudoku</h1>
+            <h1 className="text-4xl font-bold text-(--body-text) mb-2">
+                Sudoku
+            </h1>
             {username ? (
                 <p className="text-(--text-muted) mb-1">
                     Welcome, <span className="text-(--accent)">{username}</span>

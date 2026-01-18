@@ -8,10 +8,14 @@ export const Route = createFileRoute('/help')({
 function HelpPage(): React.ReactElement {
     return (
         <div className="max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl font-bold text-(--body-text) mb-6">How to Play</h1>
+            <h1 className="text-2xl font-bold text-(--body-text) mb-6">
+                How to Play
+            </h1>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-(--body-text) mb-3">Rules</h2>
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">
+                    Rules
+                </h2>
                 <div className="bg-(--surface) rounded-lg p-4 space-y-2 text-(--text-muted)">
                     <p>Fill the 9×9 grid so that:</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
@@ -118,7 +122,9 @@ function HelpPage(): React.ReactElement {
                 </h2>
                 <div className="bg-(--surface) rounded-lg p-4 text-(--text-muted) space-y-4">
                     <div>
-                        <h3 className="font-medium text-(--body-text) mb-2">Formula</h3>
+                        <h3 className="font-medium text-(--body-text) mb-2">
+                            Formula
+                        </h3>
                         <p className="text-sm bg-(--body-bg) p-2 rounded font-mono">
                             (Base + Time Bonus - Hint Penalty - Mistake Penalty)
                             × Multiplier
@@ -141,8 +147,8 @@ function HelpPage(): React.ReactElement {
                         </h3>
                         <ul className="text-sm space-y-1">
                             <li>
-                                <span className="text-(--error)">Mistakes</span> —
-                                Points deducted immediately when you enter a
+                                <span className="text-(--error)">Mistakes</span>{' '}
+                                — Points deducted immediately when you enter a
                                 wrong number.{' '}
                                 <strong>Cannot be recovered with undo.</strong>
                             </li>
@@ -230,7 +236,9 @@ function HelpPage(): React.ReactElement {
             </section>
 
             <section className="mb-8">
-                <h2 className="text-lg font-semibold text-(--body-text) mb-3">Tips</h2>
+                <h2 className="text-lg font-semibold text-(--body-text) mb-3">
+                    Tips
+                </h2>
                 <div className="bg-(--surface) rounded-lg p-4 text-(--text-muted)">
                     <ul className="list-disc list-inside space-y-1">
                         <li>Use notes to track possible candidates</li>

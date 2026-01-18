@@ -1,31 +1,31 @@
 {
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:developers.cloudflare.com)",
-      "WebFetch(domain:blog.cloudflare.com)",
-      "Bash(npm run build:*)",
-      "Bash(npx vite build:*)",
-      "Bash(pnpm add:*)",
-      "Bash(pnpm build:*)",
-      "Bash(pnpm test:run:*)",
-      "Bash(pnpm lint:*)",
-      "Bash(pnpm wrangler kv namespace create:*)",
-      "Bash(npm test)",
-      "Bash(npx drizzle-kit:*)",
-      "Bash(wrangler d1 execute:*)",
-      "Bash(pnpm wrangler d1 execute:*)",
-      "Bash(source:*)",
-      "Bash(pnpm view:*)",
-      "Bash(pnpm format:check:*)",
-      "mcp__chrome-devtools__navigate_page",
-      "mcp__chrome-devtools__take_snapshot",
-      "mcp__chrome-devtools__click",
-      "mcp__chrome-devtools__press_key",
-      "mcp__chrome-devtools__evaluate_script",
-      "mcp__chrome-devtools__take_screenshot",
-      "Bash(npm run typecheck:*)",
-      "Bash(npm run:*)",
-      "Bash(find src -name \"*.tsx\" -exec sed -i '' 's/\\\\[var\\(--\\\\\\([^\\)]*\\\\\\)\\)\\\\]/\\(--\\\\1\\)/g' {} +)"
-    ]
-  }
+    "permissions": {
+        "allow": [
+            "WebFetch(domain:developers.cloudflare.com)",
+            "WebFetch(domain:blog.cloudflare.com)",
+            "Bash(npm run build:*)",
+            "Bash(npx vite build:*)",
+            "Bash(pnpm add:*)",
+            "Bash(pnpm build:*)",
+            "Bash(pnpm test:run:*)",
+            "Bash(pnpm lint:*)",
+            "Bash(pnpm wrangler kv namespace create:*)",
+            "Bash(npm test)",
+            "Bash(npx drizzle-kit:*)",
+            "Bash(wrangler d1 execute:*)",
+            "Bash(pnpm wrangler d1 execute:*)",
+            "Bash(source:*)",
+            "Bash(pnpm view:*)",
+            "Bash(pnpm format:check:*)",
+            "mcp__chrome-devtools__navigate_page",
+            "mcp__chrome-devtools__take_snapshot",
+            "mcp__chrome-devtools__click",
+            "mcp__chrome-devtools__press_key",
+            "mcp__chrome-devtools__evaluate_script",
+            "mcp__chrome-devtools__take_screenshot",
+            "Bash(npm run typecheck:*)",
+            "Bash(npm run:*)",
+            "Bash(find src -name \"*.tsx\" -exec sed -i '' 's/\\\\[var\\(--\\\\\\([^\\)]*\\\\\\)\\)\\\\]/\\(--\\\\1\\)/g' {} +)"
+        ]
+    }
 }

@@ -86,8 +86,12 @@ export function findBestHintCell(
                 sharesUnitWithSelected: selectedCell
                     ? sharesUnit(position, selectedCell)
                     : false,
-                inSameRow: selectedCell ? position.row === selectedCell.row : false,
-                inSameCol: selectedCell ? position.col === selectedCell.col : false,
+                inSameRow: selectedCell
+                    ? position.row === selectedCell.row
+                    : false,
+                inSameCol: selectedCell
+                    ? position.col === selectedCell.col
+                    : false,
             });
         }
     }
