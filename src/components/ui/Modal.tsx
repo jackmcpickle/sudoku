@@ -8,7 +8,12 @@ interface ModalProps {
     title?: string;
 }
 
-export function Modal({ isOpen, onClose, children, title }: ModalProps): React.ReactElement | null {
+export function Modal({
+    isOpen,
+    onClose,
+    children,
+    title,
+}: ModalProps): React.ReactElement | null {
     useEffect(() => {
         if (isOpen) document.body.style.overflow = 'hidden';
         else document.body.style.overflow = '';

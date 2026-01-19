@@ -12,6 +12,7 @@ import { getUserId } from '@/lib/storage';
 import { DIFFICULTY_CONFIG } from '@/lib/sudoku/difficulty';
 import { checkCompletion } from '@/lib/sudoku/completion';
 import { clearNotesForValue } from '@/lib/sudoku/notes';
+import { findBestHintCell } from '@/lib/sudoku/hint';
 
 interface GameState {
     puzzle: Puzzle | null;
@@ -236,11 +237,16 @@ export const useGameStore = create<GameState>((set, get) => ({
             history,
             isComplete,
         } = get();
-        if (!selectedCell || isComplete || !puzzle) return;
+        if (isComplete || !puzzle) return;
 
-        const { row, col } = selectedCell;
+        // Find the best cell to hint using the algorithm
+        // selectedCell is passed as a bias parameter to prefer nearby cells
+        const hintCell = findBestHintCell(board, selectedCell);
+
+        if (!hintCell) return; // No empty cells to hint
+
+        const { row, col } = hintCell;
         const cell = board[row][col];
-        if (cell.isGiven) return;
 
         const action: Action = {
             type: 'fill',
@@ -262,6 +268,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         set({
             board: newBoard,
+            selectedCell: hintCell, // Select the hinted cell so user sees it
             hintsUsed: hintsUsed + 1,
             history: [...history, action],
             isComplete: complete,

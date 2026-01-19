@@ -52,7 +52,9 @@ function ScoresPage(): React.ReactElement {
 
     return (
         <div className="max-w-2xl mx-auto px-4">
-            <h1 className="text-2xl font-bold text-(--body-text) mb-6">Leaderboard</h1>
+            <h1 className="text-2xl font-bold text-(--body-text) mb-6">
+                Leaderboard
+            </h1>
 
             {stats.totalGames > 0 && (
                 <div className="bg-(--accent-muted) rounded-lg p-4 mb-6">
@@ -64,7 +66,9 @@ function ScoresPage(): React.ReactElement {
                             <div className="text-2xl font-bold text-(--accent)">
                                 {stats.totalGames}
                             </div>
-                            <div className="text-xs text-(--accent-text)">Games</div>
+                            <div className="text-xs text-(--accent-text)">
+                                Games
+                            </div>
                         </div>
                         <div>
                             <div className="text-2xl font-bold text-(--accent)">

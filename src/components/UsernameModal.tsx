@@ -11,7 +11,10 @@ interface UsernameModalProps {
     onClose?: () => void;
 }
 
-export function UsernameModal({ isOpen, onClose }: UsernameModalProps): React.ReactElement {
+export function UsernameModal({
+    isOpen,
+    onClose,
+}: UsernameModalProps): React.ReactElement {
     const [input, setInput] = useState('');
     const [validationError, setValidationError] = useState('');
     const [showResumePrompt, setShowResumePrompt] = useState(false);

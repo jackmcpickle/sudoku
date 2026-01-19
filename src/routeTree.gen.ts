@@ -8,106 +8,106 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as ScoresRouteImport } from './routes/scores'
-import { Route as PlayRouteImport } from './routes/play'
-import { Route as HelpRouteImport } from './routes/help'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as ScoresRouteImport } from './routes/scores';
+import { Route as PlayRouteImport } from './routes/play';
+import { Route as HelpRouteImport } from './routes/help';
+import { Route as IndexRouteImport } from './routes/index';
 
 const ScoresRoute = ScoresRouteImport.update({
-  id: '/scores',
-  path: '/scores',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/scores',
+    path: '/scores',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const PlayRoute = PlayRouteImport.update({
-  id: '/play',
-  path: '/play',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/play',
+    path: '/play',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const HelpRoute = HelpRouteImport.update({
-  id: '/help',
-  path: '/help',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/help',
+    path: '/help',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/',
+    path: '/',
+    getParentRoute: () => rootRouteImport,
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/help': typeof HelpRoute
-  '/play': typeof PlayRoute
-  '/scores': typeof ScoresRoute
+    '/': typeof IndexRoute;
+    '/help': typeof HelpRoute;
+    '/play': typeof PlayRoute;
+    '/scores': typeof ScoresRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/help': typeof HelpRoute
-  '/play': typeof PlayRoute
-  '/scores': typeof ScoresRoute
+    '/': typeof IndexRoute;
+    '/help': typeof HelpRoute;
+    '/play': typeof PlayRoute;
+    '/scores': typeof ScoresRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/help': typeof HelpRoute
-  '/play': typeof PlayRoute
-  '/scores': typeof ScoresRoute
+    __root__: typeof rootRouteImport;
+    '/': typeof IndexRoute;
+    '/help': typeof HelpRoute;
+    '/play': typeof PlayRoute;
+    '/scores': typeof ScoresRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/help' | '/play' | '/scores'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/help' | '/play' | '/scores'
-  id: '__root__' | '/' | '/help' | '/play' | '/scores'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath;
+    fullPaths: '/' | '/help' | '/play' | '/scores';
+    fileRoutesByTo: FileRoutesByTo;
+    to: '/' | '/help' | '/play' | '/scores';
+    id: '__root__' | '/' | '/help' | '/play' | '/scores';
+    fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  HelpRoute: typeof HelpRoute
-  PlayRoute: typeof PlayRoute
-  ScoresRoute: typeof ScoresRoute
+    IndexRoute: typeof IndexRoute;
+    HelpRoute: typeof HelpRoute;
+    PlayRoute: typeof PlayRoute;
+    ScoresRoute: typeof ScoresRoute;
 }
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/scores': {
-      id: '/scores'
-      path: '/scores'
-      fullPath: '/scores'
-      preLoaderRoute: typeof ScoresRouteImport
-      parentRoute: typeof rootRouteImport
+    interface FileRoutesByPath {
+        '/scores': {
+            id: '/scores';
+            path: '/scores';
+            fullPath: '/scores';
+            preLoaderRoute: typeof ScoresRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/play': {
+            id: '/play';
+            path: '/play';
+            fullPath: '/play';
+            preLoaderRoute: typeof PlayRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/help': {
+            id: '/help';
+            path: '/help';
+            fullPath: '/help';
+            preLoaderRoute: typeof HelpRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/': {
+            id: '/';
+            path: '/';
+            fullPath: '/';
+            preLoaderRoute: typeof IndexRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
     }
-    '/play': {
-      id: '/play'
-      path: '/play'
-      fullPath: '/play'
-      preLoaderRoute: typeof PlayRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/help': {
-      id: '/help'
-      path: '/help'
-      fullPath: '/help'
-      preLoaderRoute: typeof HelpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  HelpRoute: HelpRoute,
-  PlayRoute: PlayRoute,
-  ScoresRoute: ScoresRoute,
-}
+    IndexRoute: IndexRoute,
+    HelpRoute: HelpRoute,
+    PlayRoute: PlayRoute,
+    ScoresRoute: ScoresRoute,
+};
 export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+    ._addFileChildren(rootRouteChildren)
+    ._addFileTypes<FileRouteTypes>();

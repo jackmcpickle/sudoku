@@ -90,7 +90,8 @@ function PlayPage(): React.ReactElement {
     }, [difficulty, puzzle, newGame, resume, initializedRef, checkedSavedGame]);
 
     const isGenerating =
-        !puzzle || (puzzle.difficulty !== difficulty && !resume && checkedSavedGame);
+        !puzzle ||
+        (puzzle.difficulty !== difficulty && !resume && checkedSavedGame);
 
     function handleNewGame(): void {
         reset();
@@ -116,7 +117,9 @@ function PlayPage(): React.ReactElement {
         <div className="max-w-lg mx-auto px-4">
             <div className="flex items-center justify-between mb-4">
                 <div>
-                    <span className="text-sm text-(--text-muted)">Difficulty: </span>
+                    <span className="text-sm text-(--text-muted)">
+                        Difficulty:{' '}
+                    </span>
                     <span className="font-medium capitalize text-(--body-text)">
                         {puzzle.difficulty}
                     </span>

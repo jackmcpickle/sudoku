@@ -32,7 +32,9 @@ export function ResumeGameModal({
                     game.
                 </p>
                 <div className="bg-(--surface-alt) rounded-lg p-3 text-center">
-                    <div className="text-sm text-(--text-muted)">Time played</div>
+                    <div className="text-sm text-(--text-muted)">
+                        Time played
+                    </div>
                     <div className="text-xl font-mono text-(--body-text)">
                         {formatTime(timer)}
                     </div>

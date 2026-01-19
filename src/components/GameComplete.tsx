@@ -92,7 +92,10 @@ export function GameComplete(): React.ReactElement | null {
     function handlePlayAgain(): void {
         savedRef.current = false;
         reset();
-        void navigate({ to: '/play', search: { difficulty: currentDifficulty } });
+        void navigate({
+            to: '/play',
+            search: { difficulty: currentDifficulty },
+        });
     }
 
     return (
