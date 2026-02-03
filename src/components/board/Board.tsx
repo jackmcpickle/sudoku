@@ -52,7 +52,7 @@ export function Board(): React.ReactElement {
                         return (
                             <div
                                 key={`${rowIndex}-${colIndex}`}
-                                className={`aspect-square ${borderRight} ${borderBottom}`}
+                                className={`h-12 aspect-square ${borderRight} ${borderBottom}`}
                             >
                                 <Cell
                                     value={cell.value}
