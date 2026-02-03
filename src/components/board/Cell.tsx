@@ -37,7 +37,7 @@ export function Cell({
     return (
         <button
             type="button"
-            className={`aspect-square w-full flex items-center justify-center cursor-pointer transition-colors border-none outline-none ${bgClass}`}
+            className={`aspect-square w-full flex items-center justify-center cursor-pointer transition-colors border-0 outline-0 appearance-none ${bgClass}`}
             onClick={onClick}
         >
             {value !== 0 ? (
