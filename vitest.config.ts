@@ -5,7 +5,15 @@ import path from 'path';
 
 // eslint-disable-next-line import/no-default-export -- Vite config requires default export
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        {
+            name: 'pwa-test-module',
+            resolveId(id) {
+                if (id === 'virtual:pwa-register') return id;
+            },
+        },
+    ],
     test: {
         globals: true,
         environment: 'jsdom',
