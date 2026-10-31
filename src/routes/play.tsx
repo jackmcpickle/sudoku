@@ -26,7 +26,9 @@ function PlayPage(): React.ReactElement {
     const { difficulty, resume } = Route.useSearch();
     const navigate = useNavigate();
     const generatingRef = useRef(false);
-    const [checkedSavedGame, setCheckedSavedGame] = useState(false);
+    const [checkedSavedGame, setCheckedSavedGame] = useState(
+        () => !!useGameStore.getState().puzzle,
+    );
 
     const { puzzle } = useGameState();
     const { newGame, reset } = useGameActions();
@@ -44,10 +46,12 @@ function PlayPage(): React.ReactElement {
 
     // Check for saved game on mount (handles page refresh)
     useEffect(() => {
-        if (!visitorId || checkedSavedGame || resume) return;
+        if (puzzle || !visitorId || checkedSavedGame) return;
 
+        let cancelled = false;
         void getSavedGame(visitorId).then((savedGame) => {
-            if (savedGame && !puzzle) {
+            if (cancelled) return;
+            if (savedGame && !useGameStore.getState().puzzle) {
                 loadGame({
                     puzzle: savedGame.puzzle,
                     solution: savedGame.solution,
@@ -63,20 +67,20 @@ function PlayPage(): React.ReactElement {
             }
             setCheckedSavedGame(true);
         });
-    }, [visitorId, checkedSavedGame, resume, puzzle, loadGame, initializedRef]);
+        return () => {
+            cancelled = true;
+        };
+    }, [visitorId, checkedSavedGame, puzzle, loadGame, initializedRef]);
 
     useEffect(() => {
-        if (resume && puzzle) {
+        if (puzzle) {
             initializedRef.current = true;
             return;
         }
         // Wait until we've checked for saved game before generating new
-        if (!checkedSavedGame && !resume) return;
+        if (!checkedSavedGame) return;
 
-        if (
-            (!puzzle || puzzle.difficulty !== difficulty) &&
-            !generatingRef.current
-        ) {
+        if (!generatingRef.current) {
             generatingRef.current = true;
             setTimeout(() => {
                 const newPuzzle = generatePuzzle(difficulty);
@@ -84,14 +88,10 @@ function PlayPage(): React.ReactElement {
                 initializedRef.current = true;
                 generatingRef.current = false;
             }, 50);
-        } else if (puzzle) {
-            initializedRef.current = true;
         }
-    }, [difficulty, puzzle, newGame, resume, initializedRef, checkedSavedGame]);
+    }, [difficulty, puzzle, newGame, initializedRef, checkedSavedGame]);
 
-    const isGenerating =
-        !puzzle ||
-        (puzzle.difficulty !== difficulty && !resume && checkedSavedGame);
+    const isGenerating = !puzzle;
 
     function handleNewGame(): void {
         reset();

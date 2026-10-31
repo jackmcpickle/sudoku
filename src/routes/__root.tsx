@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { Header } from '@/components/layout';
+import { AppUpdates } from '@/components/AppUpdates';
 
 export const Route = createRootRoute({
     component: RootLayout,
@@ -12,6 +13,7 @@ function RootLayout(): React.ReactElement {
             <main className="py-6">
                 <Outlet />
             </main>
+            <AppUpdates />
         </div>
     );
 }

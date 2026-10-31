@@ -71,3 +71,15 @@ export default defineConfig([
     },
 ]);
 ```
+
+## App updates
+
+The footer shows the package version and a build identifier. Each build gets a new identifier, even when the package version is unchanged.
+
+The installed app checks for updates on launch, when it returns to the foreground, when the connection returns, and hourly while visible and online. You can also select **Check for updates** in the footer.
+
+When **Update available** appears, select **Update now**. The app saves the current puzzle, notes, timer, penalties, and undo history on this device before reloading. If device storage fails, the app stays open and displays an error. Leave the completed-puzzle screen before updating to avoid submitting its score twice.
+
+The recovery copy belongs to the current tab and visitor. It takes priority over cloud restoration on the play page, stays current through further refreshes, and clears when you finish or quit the puzzle. It is not a replacement for cloud saving or a backup after closing the tab.
+
+Service-worker activation remains automatic for compatibility with older installed versions. Only the page reload waits for your action. An app still running the old, registration-only code needs to be closed and reopened online to acquire this update behavior. There is no cache purge or change to visitor identity.

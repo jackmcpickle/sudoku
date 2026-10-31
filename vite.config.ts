@@ -4,8 +4,15 @@ import tailwindcss from '@tailwindcss/vite';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
+import { randomUUID } from 'node:crypto';
+import { version } from './package.json';
 
 export default defineConfig({
+    define: {
+        __APP_VERSION__: JSON.stringify(
+            `${version} · ${randomUUID().slice(0, 8)}`,
+        ),
+    },
     plugins: [
         TanStackRouterVite({ quoteStyle: 'single' }),
         react(),
