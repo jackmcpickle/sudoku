@@ -152,7 +152,11 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         const { row, col } = selectedCell;
         const cell = board[row][col];
-        if (cell.isGiven) return;
+        if (
+            cell.isGiven ||
+            (cell.value !== 0 && cell.value === solution[row][col])
+        )
+            return;
 
         if (isNotesMode) {
             get().toggleNote(value);
@@ -276,10 +280,26 @@ export const useGameStore = create<GameState>((set, get) => ({
     },
 
     undo: () => {
-        const { history, board } = get();
+        const { history, board, solution } = get();
         if (history.length === 0) return;
 
-        const lastAction = history[history.length - 1];
+        let actionIndex = history.length - 1;
+        while (actionIndex >= 0) {
+            const { row, col } = history[actionIndex];
+            const cell = board[row][col];
+            if (
+                !cell.isGiven &&
+                (cell.value === 0 || cell.value !== solution[row][col])
+            )
+                break;
+            actionIndex--;
+        }
+        if (actionIndex === -1) {
+            set({ history: [] });
+            return;
+        }
+
+        const lastAction = history[actionIndex];
         const { row, col, prevValue, prevNotes } = lastAction;
 
         const newBoard = board.map((r) =>
@@ -288,7 +308,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         newBoard[row][col].value = prevValue;
         newBoard[row][col].notes = new Set(prevNotes);
 
-        set({ board: newBoard, history: history.slice(0, -1) });
+        set({ board: newBoard, history: history.slice(0, actionIndex) });
     },
 
     tick: () => {

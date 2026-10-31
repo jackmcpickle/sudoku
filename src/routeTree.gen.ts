@@ -9,19 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root';
-import { Route as ScoresRouteImport } from './routes/scores';
-import { Route as PlayRouteImport } from './routes/play';
-import { Route as HelpRouteImport } from './routes/help';
 import { Route as IndexRouteImport } from './routes/index';
+import { Route as HelpRouteImport } from './routes/help';
+import { Route as PlayRouteImport } from './routes/play';
+import { Route as ScoresRouteImport } from './routes/scores';
 
-const ScoresRoute = ScoresRouteImport.update({
-    id: '/scores',
-    path: '/scores',
-    getParentRoute: () => rootRouteImport,
-} as any);
-const PlayRoute = PlayRouteImport.update({
-    id: '/play',
-    path: '/play',
+const IndexRoute = IndexRouteImport.update({
+    id: '/',
+    path: '/',
     getParentRoute: () => rootRouteImport,
 } as any);
 const HelpRoute = HelpRouteImport.update({
@@ -29,9 +24,14 @@ const HelpRoute = HelpRouteImport.update({
     path: '/help',
     getParentRoute: () => rootRouteImport,
 } as any);
-const IndexRoute = IndexRouteImport.update({
-    id: '/',
-    path: '/',
+const PlayRoute = PlayRouteImport.update({
+    id: '/play',
+    path: '/play',
+    getParentRoute: () => rootRouteImport,
+} as any);
+const ScoresRoute = ScoresRouteImport.update({
+    id: '/scores',
+    path: '/scores',
     getParentRoute: () => rootRouteImport,
 } as any);
 
@@ -71,18 +71,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
     interface FileRoutesByPath {
-        '/scores': {
-            id: '/scores';
-            path: '/scores';
-            fullPath: '/scores';
-            preLoaderRoute: typeof ScoresRouteImport;
-            parentRoute: typeof rootRouteImport;
-        };
-        '/play': {
-            id: '/play';
-            path: '/play';
-            fullPath: '/play';
-            preLoaderRoute: typeof PlayRouteImport;
+        '/': {
+            id: '/';
+            path: '/';
+            fullPath: '/';
+            preLoaderRoute: typeof IndexRouteImport;
             parentRoute: typeof rootRouteImport;
         };
         '/help': {
@@ -92,11 +85,18 @@ declare module '@tanstack/react-router' {
             preLoaderRoute: typeof HelpRouteImport;
             parentRoute: typeof rootRouteImport;
         };
-        '/': {
-            id: '/';
-            path: '/';
-            fullPath: '/';
-            preLoaderRoute: typeof IndexRouteImport;
+        '/play': {
+            id: '/play';
+            path: '/play';
+            fullPath: '/play';
+            preLoaderRoute: typeof PlayRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/scores': {
+            id: '/scores';
+            path: '/scores';
+            fullPath: '/scores';
+            preLoaderRoute: typeof ScoresRouteImport;
             parentRoute: typeof rootRouteImport;
         };
     }
